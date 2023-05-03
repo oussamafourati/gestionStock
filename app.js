@@ -1,51 +1,79 @@
 import express from "express";
-
-import {
-  getCategories,
-  getCategory,
-  createCategory,
-  updateCategory,
-  deleteCategory,
-} from "./database.js";
+import mysql from "mysql2";
+import cors from "cors";
 
 const app = express();
-const router = express.Router();
-
+app.use(cors());
 app.use(express.json());
 
-app.get("/categories", async (req, res) => {
-  const categories = await getCategories();
-  res.send(categories);
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "root",
+  database: "stock_app",
 });
 
-app.get("/category/:id", async (req, res) => {
-  const id = req.params.id;
-  const category = await getCategory(id);
-  res.send(category);
+app.get("/", (req, res) => {
+  res.json("hello");
 });
 
-app.post("/categories", async (req, res) => {
-  const { nom, image, id_parent } = req.body;
-  const category = await createCategory(nom, image, id_parent);
-  res.status(201).send(category);
+app.get("/all", (req, res) => {
+  const q = "SELECT * FROM category";
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
 });
 
-app.put("/category/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const { nom, image, id_parent } = req.body;
-    const category = await updateCategory(id, nom, image, id_parent);
-    res.status(201).send(category);
-  } catch (error) {
-    res.status(500).send(error);
-  }
+app.get("/category/:id", (req, res) => {
+  const categoryId = req.params.id;
+  const q = "SELECT * FROM category WHERE idcategory = ? ";
+  db.query(q, [categoryId], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
 });
 
-app.delete("/category/:id", async (req, res) => {
-  const id = req.params.id;
-  const categories = await deleteCategory(id);
-  res.status(201).send(categories);
+app.post("/category", (req, res) => {
+  const q = "INSERT INTO category(`nom`, `image`, `id_parent`) VALUES (?)";
+
+  const values = [req.body.nom, req.body.image, req.body.id_parent];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
 });
+
+app.delete("/category/:id", (req, res) => {
+  const categoryId = req.params.id;
+  const q = " DELETE FROM category WHERE idcategory = ? ";
+
+  db.query(q, [categoryId], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.put("/category/:id", (req, res) => {
+  const categoryId = req.params.id;
+  const q =
+    "UPDATE category SET `nom`= ?, `image`= ?, `id_parent`= ? WHERE idcategory = ?";
+
+  const values = [req.body.nom, req.body.image, req.body.id_parent];
+
+  db.query(q, [...values, categoryId], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
 app.listen(8000, () => {
-  console.log("Server is running on port 8000");
+  console.log("Connected to backend.");
 });
