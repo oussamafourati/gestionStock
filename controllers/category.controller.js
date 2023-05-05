@@ -37,9 +37,15 @@ exports.getOne = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const sql = "INSERT INTO category(`nom`, `image`, `id_parent`) VALUES (?)";
+  const sql =
+    "INSERT INTO category(`nom`, `image`, `id_parent`, `final_level`) VALUES (?)";
 
-  const values = [req.body.nom, req.file.filename, req.body.id_parent];
+  const values = [
+    req.body.nom,
+    req.file.filename,
+    req.body.id_parent,
+    req.body.final_level,
+  ];
 
   db.query(sql, [values], (err, data) => {
     if (err) return res.send(err);
@@ -50,9 +56,14 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   const categoryId = req.params.id;
   const q =
-    "UPDATE category SET `nom`= ?, `image`= ?, `id_parent`= ? WHERE idcategory = ?";
+    "UPDATE category SET `nom`= ?, `image`= ?, `id_parent`= ?, `final_level`= ? WHERE idcategory = ?";
 
-  const values = [req.body.nom, req.body.image, req.body.id_parent];
+  const values = [
+    req.body.nom,
+    req.file.filename,
+    req.body.id_parent,
+    req.body.final_level,
+  ];
 
   db.query(q, [...values, categoryId], (err, data) => {
     if (err) return res.send(err);

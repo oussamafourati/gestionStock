@@ -17,24 +17,47 @@ tel integer NOT NULL,
 mail VARCHAR(255) NOT NULL,
 type integer,
 matricule_fiscale VARCHAR(255) NOT NULL,
-logo VARCHAR(255) ,
+logo text ,
 rib bigint not null,
 etat integer,
-piece_jointes VARCHAR(255)
+piecejointes integer,
+FOREIGN KEY (piecejointes) REFERENCES piece_jointes(idpj)
 );
 
-INSERT INTO category(nom, image, id_parent)
+INSERT INTO fournisseur (raison_sociale, adresse, tel, mail, type, matricule_fiscale, logo, rib, etat, piecejointes)
 VALUES
-('First Category', 'about something', 1),
-('Second Category', 'football note', 2);
+("foazrazr", "tunis", "14785236", "test@gmail.com", 1, "hello147852", "logo", 14785, 1,1);
 
 
 UPDATE category
 SET nom = "oussama" , image = "fpikdfka" , id_parent = 7
 WHERE idcategory = 3;
 
-ALTER TABLE category
-ADD final_level integer;
+ALTER TABLE fournisseur
+ADD idpk integer;
 
 ALTER TABLE fournisseur
 DROP COLUMN rib;
+
+CREATE TABLE piece_jointes (
+idpj integer PRIMARY KEY AUTO_INCREMENT,
+fichier VARCHAR(255) NOT NULL
+);
+
+INSERT INTO fournisseur ("foazrazr", "tunis", "14785236", "test@gmail.com", 1, "hello147852", "logo", 14785, 1)
+SELECT fichier
+FROM idfournisseur
+WHERE idcategory = piecejointes;
+
+ALTER TABLE fournisseur
+ADD FOREIGN KEY (piece_jointes) REFERENCES piece_jointes(idpj);
+
+DROP TABLE fournisseur;
+
+INSERT INTO piece_jointes (fichier)
+VALUES
+("fichier1");
+
+SELECT fournisseur.*, piece_jointes.*
+    FROM fournisseur
+    JOIN piece_jointes ON fournisseur.piecejointes = piece_jointes.idpj;
