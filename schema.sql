@@ -61,3 +61,19 @@ VALUES
 SELECT fournisseur.*, piece_jointes.*
     FROM fournisseur
     JOIN piece_jointes ON fournisseur.piecejointes = piece_jointes.idpj;
+
+CREATE TABLE client_physique (
+idclient_p integer PRIMARY KEY AUTO_INCREMENT,
+raison_sociale VARCHAR(255) NOT NULL,
+cin integer not null,
+adresse VARCHAR(255) NOT NULL,
+tel integer NOT NULL,
+mail VARCHAR(255) NOT NULL,
+avatar text ,
+rib bigint not null,
+etat integer,
+remarque text,
+crédit float,
+piecejointes integer,
+FOREIGN KEY (piecejointes) REFERENCES piece_jointes(idpj)
+);
