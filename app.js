@@ -7,10 +7,6 @@ app.use(express.json());
 
 const categoryRouter = require("./routes/category.route.js");
 
-app.get("/", (req, res) => {
-  res.json("hello");
-});
-
 app.use("/category", categoryRouter);
 
 app.listen(8000, () => {

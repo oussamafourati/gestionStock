@@ -1,13 +1,7 @@
 const mysql = require("mysql2");
 const multer = require("multer");
 const path = require("path");
-
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "stock_app",
-});
+const db = require("../config/db.config");
 
 const storage = multer.diskStorage({
   destination: "./image/",
