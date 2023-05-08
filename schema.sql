@@ -17,11 +17,10 @@ tel integer NOT NULL,
 mail VARCHAR(255) NOT NULL,
 type integer,
 matricule_fiscale VARCHAR(255) NOT NULL,
-logo text ,
+logo LONGTEXT ,
 rib bigint not null,
 etat integer,
-piecejointes integer,
-FOREIGN KEY (piecejointes) REFERENCES piece_jointes(idpj)
+piecejointes LONGTEXT
 );
 
 INSERT INTO fournisseur (raison_sociale, adresse, tel, mail, type, matricule_fiscale, logo, rib, etat, piecejointes)
@@ -77,3 +76,4 @@ crédit float,
 piecejointes integer,
 FOREIGN KEY (piecejointes) REFERENCES piece_jointes(idpj)
 );
+

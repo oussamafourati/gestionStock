@@ -1,40 +1,22 @@
 const mysql = require("mysql2");
-const multer = require("multer");
-const path = require("path");
-
 const db = require("../config/db.config");
-
-const storage = multer.diskStorage({
-  destination: "./image/",
-  filename: (req, file, cb) => {
-    return cb(
-      null,
-      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
-    );
-  },
-});
 
 exports.createFournisseur = async (req, res) => {
   const sql =
     "INSERT INTO fournisseur(`raison_sociale`, `adresse`, `tel`, `mail`, `type`, `matricule_fiscale`, `logo`, `rib`, `etat`, `piecejointes`) VALUES (?)";
 
-  const values = [
-    req.body.raison_sociale,
-    req.body.adresse,
-    req.body.tel,
-    req.body.mail,
-    req.body.type,
-    req.body.matricule_fiscale,
-    req.file.filename,
-    req.body.rib,
-    req.body.etat,
-    req.body.piecejointes,
-  ];
+  raison_sociale = req.body.raison_sociale;
+  adresse = req.body.adresse;
+  tel = req.body.tel;
+  mail = req.body.mail;
+  type = req.body.type;
+  matricule_fiscale = req.body.matricule_fiscale;
+  logo = req.file;
+  rib = req.body.rib;
+  etat = req.body.etat;
+  piecejointes = req.file;
 
-  db.query(sql, [values], (err, data) => {
-    if (err) return res.send(err);
-    return res.status(201).json(data);
-  });
+  console.log(logo);
 };
 
 exports.getAllFournisseur = async (req, res) => {
@@ -66,17 +48,28 @@ exports.updateFournisseur = async (req, res) => {
   const q =
     "UPDATE fournisseur SET `raison_sociale`= ?, `adresse`= ?, `tel`= ?, `mail`= ?, `type`= ?, `matricule_fiscale`= ?, `logo`= ?, `rib`= ?, `etat`= ?, `piecejointes`= ? WHERE idfournisseur = ?";
 
+  raison_sociale = req.body.raison_sociale;
+  adresse = req.body.adresse;
+  tel = req.body.tel;
+  mail = req.body.mail;
+  type = req.body.type;
+  matricule_fiscale = req.body.matricule_fiscale;
+  logo = req.file.filename;
+  rib = req.body.rib;
+  etat = req.body.etat;
+  piecejointes = req.body.piecejointes;
+
   const values = [
-    req.body.raison_sociale,
-    req.body.adresse,
-    req.body.tel,
-    req.body.mail,
-    req.body.type,
-    req.body.matricule_fiscale,
-    req.file.filename,
-    req.body.rib,
-    req.body.etat,
-    req.body.piecejointes,
+    raison_sociale,
+    adresse,
+    tel,
+    mail,
+    type,
+    matricule_fiscale,
+    logo,
+    rib,
+    etat,
+    piecejointes,
   ];
 
   db.query(q, [...values, id_fournisseur], (err, data) => {
