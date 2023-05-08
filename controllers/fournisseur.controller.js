@@ -11,23 +11,38 @@ exports.createFournisseur = async (req, res) => {
   mail = req.body.mail;
   type = req.body.type;
   matricule_fiscale = req.body.matricule_fiscale;
-  logo = req.file;
+  logo = req.files.buffer.toString("base64");
   rib = req.body.rib;
   etat = req.body.etat;
-  piecejointes = req.file;
+  piecejointes = req.files.buffer.toString("base64");
 
-  console.log(logo);
+  const values = [
+    raison_sociale,
+    adresse,
+    tel,
+    mail,
+    type,
+    matricule_fiscale,
+    logo,
+    rib,
+    etat,
+    piecejointes,
+  ];
+
+  db.query(sql, [values], (err, data) => {
+    if (err) return res.send(err);
+    return res.status(201).send(req.body);
+  });
 };
 
 exports.getAllFournisseur = async (req, res) => {
-  const sql =
-    "SELECT fournisseur.*, piece_jointes.* FROM fournisseur JOIN piece_jointes ON fournisseur.piecejointes = piece_jointes.idpj;";
+  const sql = "SELECT * from fournisseur;";
   db.query(sql, (err, data) => {
     if (err) {
       console.log(err);
       return res.json(err);
     }
-    return res.status(201).json(data);
+    return res.status(201).json(req.body);
   });
 };
 
@@ -54,10 +69,10 @@ exports.updateFournisseur = async (req, res) => {
   mail = req.body.mail;
   type = req.body.type;
   matricule_fiscale = req.body.matricule_fiscale;
-  logo = req.file.filename;
+  logo = req.files.buffer.toString("base64");
   rib = req.body.rib;
   etat = req.body.etat;
-  piecejointes = req.body.piecejointes;
+  piecejointes = req.files.buffer.toString("base64");
 
   const values = [
     raison_sociale,

@@ -21,7 +21,11 @@ router.post(
 );
 router.get("/all", getAllFournisseur);
 router.get("/one/:id", getOneFournisseur);
-router.put("/edit/:id", upload.single("logo"), updateFournisseur);
+router.put(
+  "/edit/:id",
+  upload.fields([{ name: "logo" }, { name: "piecejointes" }]),
+  updateFournisseur
+);
 router.delete("/delete/:id", removeFournisseur);
 
 module.exports = router;
