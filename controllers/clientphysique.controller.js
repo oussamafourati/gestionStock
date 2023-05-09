@@ -4,18 +4,21 @@ const db = require("../config/db.config");
 
 exports.createClient_Phy = async (req, res) => {
   const sql =
-    "INSERT INTO client_physique(`raison_sociale`, `cin`, `adresse`, `tel`, `mail`, `avatar`, `rib`, `etat`, `credit`, `piecejointes`) VALUES (?)";
+    "INSERT INTO client_physique(`raison_sociale`, `cin`, `adresse`, `tel`, `mail`, `avatar`, `rib`, `etat`, `remarque`, `credit`, `piecejointes`) VALUES (?)";
 
   raison_sociale = req.body.raison_sociale;
   cin = req.body.cin;
   adresse = req.body.adresse;
   tel = req.body.tel;
   mail = req.body.mail;
-  avatar = req.files.buffer.toString("base64");
+  //avatar = req.files.buffer.toString("base64");
+  avatar = req.file.buffer.toString("base64");
   rib = req.body.rib;
   etat = req.body.etat;
+  remarque = req.body.remarque;
   credit = req.body.credit;
-  piecejointes = req.files.buffer.toString("base64");
+  //piecejointes = req.files.buffer.toString("base64");
+  piecejointes = req.body.piecejointes;
 
   const values = [
     raison_sociale,
@@ -26,6 +29,7 @@ exports.createClient_Phy = async (req, res) => {
     avatar,
     rib,
     etat,
+    remarque,
     credit,
     piecejointes,
   ];
@@ -62,18 +66,21 @@ exports.getOneClientPhy = async (req, res) => {
 exports.updateClientPhy = async (req, res) => {
   const id_clientphy = req.params.id;
   const q =
-    "UPDATE client_physique SET `raison_sociale`= ?,`cin`= ?, `adresse`= ?, `tel`= ?, `mail`= ?, `avatar`= ? `rib`= ?, `etat`= ?, `credit`= ?, `piecejointes`= ? WHERE idclient_p = ?";
+    "UPDATE client_physique SET `raison_sociale`= ?, `cin`= ?, `adresse`= ?, `tel`= ?, `mail`= ?, `avatar`= ?, `rib`= ?, `etat`= ?, `remarque`= ?, `credit`= ?, `piecejointes`= ? WHERE idclient_p = ?";
 
   raison_sociale = req.body.raison_sociale;
   cin = req.body.cin;
   adresse = req.body.adresse;
   tel = req.body.tel;
   mail = req.body.mail;
-  avatar = req.files.buffer.toString("base64");
+  //avatar = req.files.buffer.toString("base64");
+  avatar = req.file.buffer.toString("base64");
   rib = req.body.rib;
   etat = req.body.etat;
+  remarque = req.body.remarque;
   credit = req.body.credit;
-  piecejointes = req.files.buffer.toString("base64");
+  //piecejointes = req.files.buffer.toString("base64");
+  piecejointes = req.body.piecejointes;
 
   const values = [
     raison_sociale,
@@ -84,6 +91,7 @@ exports.updateClientPhy = async (req, res) => {
     avatar,
     rib,
     etat,
+    remarque,
     credit,
     piecejointes,
   ];
@@ -100,6 +108,6 @@ exports.removeClientPhy = async (req, res) => {
 
   db.query(q, [id_clientphy], (err, data) => {
     if (err) return res.send(err);
-    return res.json(data);
+    return res.status(201).send(data);
   });
 };

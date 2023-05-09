@@ -1,5 +1,6 @@
 CREATE DATABASE stock_app;
 USE stock_app;
+/******* Table Category *******/
 
 CREATE TABLE category (
 idcategory integer PRIMARY KEY AUTO_INCREMENT,
@@ -8,6 +9,9 @@ image VARCHAR(255) NOT NULL,
 id_parent integer NOT NULL,
 final_level integer not null,
 );
+/**************************************/
+
+/******* Table Fournisseur *******/
 
 CREATE TABLE fournisseur (
 idfournisseur integer PRIMARY KEY AUTO_INCREMENT,
@@ -22,11 +26,25 @@ rib bigint not null,
 etat integer,
 piecejointes LONGTEXT
 );
+/**************************************/
 
-INSERT INTO fournisseur (raison_sociale, adresse, tel, mail, type, matricule_fiscale, logo, rib, etat, piecejointes)
-VALUES
-("foazrazr", "tunis", "14785236", "test@gmail.com", 1, "hello147852", "logo", 14785, 1,1);
+/******* Table Client Physique *******/
 
+CREATE TABLE client_physique (
+idclient_p integer PRIMARY KEY AUTO_INCREMENT,
+raison_sociale VARCHAR(255) NOT NULL,
+cin integer not null,
+adresse VARCHAR(255) NOT NULL,
+tel integer NOT NULL,
+mail VARCHAR(255) NOT NULL,
+avatar LONGTEXT ,
+rib bigint not null,
+etat integer,
+remarque text,
+credit float,
+piecejointes LONGTEXT
+);
+/**************************************/
 
 UPDATE category
 SET nom = "oussama" , image = "fpikdfka" , id_parent = 7
@@ -68,12 +86,11 @@ cin integer not null,
 adresse VARCHAR(255) NOT NULL,
 tel integer NOT NULL,
 mail VARCHAR(255) NOT NULL,
-avatar text ,
+avatar LONGTEXT ,
 rib bigint not null,
 etat integer,
 remarque text,
-crédit float,
-piecejointes integer,
-FOREIGN KEY (piecejointes) REFERENCES piece_jointes(idpj)
+credit float,
+piecejointes LONGTEXT
 );
 
