@@ -64,6 +64,25 @@ piecejointes LONGTEXT
 );
 /**************************************/
 
+/******* Table Produit *******/
+
+CREATE TABLE produit (
+idproduit integer PRIMARY KEY AUTO_INCREMENT,
+nomProduit VARCHAR(255) NOT NULL,
+imageProduit integer not null,
+marque VARCHAR(255) NOT NULL,
+prixAchatHt integer not null,
+prixAchatTtc integer not null,
+prixVente integer not null,
+remise integer,
+remarqueProduit VARCHAR(255),
+categoryID int,
+FOREIGN KEY (categoryID) REFERENCES category(idcategory),
+fournisseurID int,
+FOREIGN KEY (fournisseurID) REFERENCES fournisseur(idfournisseur)
+);
+/**************************************/
+
 UPDATE category
 SET nom = "oussama" , image = "fpikdfka" , id_parent = 7
 WHERE idcategory = 3;
