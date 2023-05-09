@@ -46,6 +46,24 @@ piecejointes LONGTEXT
 );
 /**************************************/
 
+/******* Table Client Morale *******/
+
+CREATE TABLE client_moral (
+idclient_m integer PRIMARY KEY AUTO_INCREMENT,
+raison_sociale VARCHAR(255) NOT NULL,
+mat integer not null,
+adresse VARCHAR(255) NOT NULL,
+tel integer NOT NULL,
+mail VARCHAR(255) NOT NULL,
+logo LONGTEXT ,
+rib bigint not null,
+etat integer,
+remarque text,
+credit float,
+piecejointes LONGTEXT
+);
+/**************************************/
+
 UPDATE category
 SET nom = "oussama" , image = "fpikdfka" , id_parent = 7
 WHERE idcategory = 3;
