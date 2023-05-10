@@ -10,12 +10,14 @@ const fournisseurRouter = require("./routes/fournisseur.route.js");
 const clientphysiqueRouter = require("./routes/clientpyhsique.route.js");
 const clientMoraleRouter = require("./routes/clientmorale.route.js");
 const productRoute = require("./routes/produit.route.js");
+const ArrivageRoute = require("./routes/arrivage.route.js");
 
 app.use("/category", categoryRouter);
 app.use("/fournisseur", fournisseurRouter);
 app.use("/clientPyh", clientphysiqueRouter);
 app.use("/clientMo", clientMoraleRouter);
 app.use("/product", productRoute);
+app.use("/arrivage", ArrivageRoute);
 
 app.listen(8000, () => {
   console.log("Connected to backend.");

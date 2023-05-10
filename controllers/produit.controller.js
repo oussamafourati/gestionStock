@@ -2,6 +2,8 @@ const mysql = require("mysql2");
 
 const db = require("../config/db.config");
 
+// @route   POST /product/newProduct
+// @desc    Create a new Product
 exports.createProduct = async (req, res) => {
   const sql =
     "INSERT INTO produit(`nomProduit`, `imageProduit`, `marque`, `prixAchatHt`, `prixAchatTtc`, `prixVente`, `remise`,`remarqueProduit`, `categoryID`, `fournisseurID`) VALUES (?)";
@@ -36,6 +38,8 @@ exports.createProduct = async (req, res) => {
   });
 };
 
+// @route   GET /product/getAll
+// @desc    Get all products
 exports.getAllProducts = async (req, res) => {
   const sql =
     "SELECT P.*, C.nom, F.raison_sociale From produit as P INNER JOIN category as C ON P.categoryID = C.idcategory INNER JOIN fournisseur as F ON P.fournisseurID = F.idfournisseur";
@@ -44,10 +48,13 @@ exports.getAllProducts = async (req, res) => {
       console.log(err);
       return res.json(err);
     }
-    return res.status(201).json(data);
+    return res.status(200).json(data);
   });
 };
 
+// @route   GET /product/getOne
+// @desc    Get all products
+// @params ?id passed in query
 exports.getOneProduct = async (req, res) => {
   const id_product = req.params.id;
   const sql =
@@ -57,10 +64,13 @@ exports.getOneProduct = async (req, res) => {
       console.log(err);
       return res.json(err);
     }
-    return res.status(201).json(data);
+    return res.status(200).json(data);
   });
 };
 
+// @route   PUT /product/updateproduct
+// @desc    Update a specific product
+// @params ?id passed in query
 exports.updateProduct = async (req, res) => {
   const id_product = req.params.id;
   const sql =
@@ -96,6 +106,9 @@ exports.updateProduct = async (req, res) => {
   });
 };
 
+// @route   DELETE /product/deleteproduct
+// @desc    Delete one product
+// @params ?id passed in query
 exports.removeProduct = async (req, res) => {
   const id_product = req.params.id;
   const sql = " DELETE FROM produit WHERE idproduit = ? ";
