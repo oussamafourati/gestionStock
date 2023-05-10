@@ -69,7 +69,7 @@ piecejointes LONGTEXT
 CREATE TABLE produit (
 idproduit integer PRIMARY KEY AUTO_INCREMENT,
 nomProduit VARCHAR(255) NOT NULL,
-imageProduit integer not null,
+imageProduit LONGTEXT not null,
 marque VARCHAR(255) NOT NULL,
 prixAchatHt integer not null,
 prixAchatTtc integer not null,
@@ -116,18 +116,10 @@ SELECT fournisseur.*, piece_jointes.*
     FROM fournisseur
     JOIN piece_jointes ON fournisseur.piecejointes = piece_jointes.idpj;
 
-CREATE TABLE client_physique (
-idclient_p integer PRIMARY KEY AUTO_INCREMENT,
-raison_sociale VARCHAR(255) NOT NULL,
-cin integer not null,
-adresse VARCHAR(255) NOT NULL,
-tel integer NOT NULL,
-mail VARCHAR(255) NOT NULL,
-avatar LONGTEXT ,
-rib bigint not null,
-etat integer,
-remarque text,
-credit float,
-piecejointes LONGTEXT
-);
 
+SELECT P.*, C.nom, F.raison_sociale 
+From produit as P 
+INNER JOIN category as C 
+ON P.categoryID = C.idcategory 
+INNER JOIN fournisseur as F 
+ON P.fournisseurID = F.idfournisseur
