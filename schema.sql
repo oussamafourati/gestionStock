@@ -95,11 +95,26 @@ dateArrivage VARCHAR(255)
 );
 /**************************************/
 
+/******* Table Arrivage-Produit *******/
+
+CREATE TABLE arrivageProduit (
+idArrivageProduit integer PRIMARY KEY AUTO_INCREMENT,
+produitID integer not null,
+FOREIGN KEY (produitID) REFERENCES produit(idproduit),
+arrivageID integer not null,
+FOREIGN KEY (arrivageID) REFERENCES arrivage(idArrivage),
+quantite integer,
+piecejointes LONGTEXT
+);
+/**************************************/
+
 /**********************************/
-SELECT A.*, F.raison_sociale 
-From arrivage as A 
-INNER JOIN fournisseur as F 
-ON A.fournisseurID = F.idfournisseur
+SELECT AP.*, A.*, P.nomProduit
+From arrivageProduit as A P
+INNER JOIN arrivage as A 
+ON AP.arrivageID = A.idArrivage
+INNER JOIN produit as P 
+ON AP.produitID = P.idproduit
 
 
 UPDATE category
