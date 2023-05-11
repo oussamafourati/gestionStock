@@ -138,10 +138,12 @@ FOREIGN KEY (clientID) REFERENCES client_physique(idclient_p)
 /******* Table Produit/Facture *******/
 
 CREATE TABLE produitFacture (
-idCharges integer PRIMARY KEY AUTO_INCREMENT,
-typeCharges VARCHAR(255) not null,
-montantCharges integer,
-dateCharges VARCHAR(255)
+idproduitFacture integer PRIMARY KEY AUTO_INCREMENT,
+produitID integer not null,
+FOREIGN KEY (produitID) REFERENCES produit(idproduit),
+factureID integer not null,
+FOREIGN KEY (factureID) REFERENCES facture(idFacture),
+quantiteProduit integer
 );
 /**************************************/
 
@@ -156,10 +158,12 @@ dateCharges VARCHAR(255)
 /**************************************/
 
 /**********************************/
-SELECT F.*, C.*
-From facture as F
-INNER JOIN client_physique as C
-ON F.clientID = C.idclient_p
+SELECT PF.*, P.*, F.*
+From produitFacture as PF
+INNER JOIN produit as P
+ON PF.produitID = P.idproduit
+INNER JOIN facture as F
+ON PF.factureID = F.idFacture
 
 
 UPDATE category
