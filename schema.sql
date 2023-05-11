@@ -150,10 +150,10 @@ quantiteProduit integer
 /******* Table Comptes *******/
 
 CREATE TABLE comptes (
-idCharges integer PRIMARY KEY AUTO_INCREMENT,
-typeCharges VARCHAR(255) not null,
-montantCharges integer,
-dateCharges VARCHAR(255)
+idCompte integer PRIMARY KEY AUTO_INCREMENT,
+username VARCHAR(255) not null,
+password VARCHAR(255) not null,
+role integer
 );
 /**************************************/
 
