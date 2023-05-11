@@ -2,11 +2,9 @@ const mysql = require("mysql2");
 
 const db = require("../config/db.config");
 
-//@route POST /arrivage/newArrivage
-//@desc  Create a new arrivage
 exports.createArrivage = async (req, res) => {
   const sql =
-    "INSERT INTO arrivage(`designation`, `montantTotal`, `fournisseurID`, `dateArrivage`) VALUES (?)";
+    "INSERT INTO arrivage(`designation`, `montantTotal`, `fournisseurID`, `dateArrivage`) VALUES (?);";
 
   designation = req.body.designation;
   montantTotal = req.body.montantTotal;
@@ -18,5 +16,58 @@ exports.createArrivage = async (req, res) => {
   db.query(sql, [values], (err, data) => {
     if (err) return res.send(err);
     return res.status(201).send(data);
+  });
+};
+
+exports.getAllArrivage = async (req, res) => {
+  const sql =
+    "SELECT A.*, F.raison_sociale From arrivage as A INNER JOIN fournisseur as F ON A.fournisseurID = F.idfournisseur";
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.status(200).json(data);
+  });
+};
+
+exports.getOneArrivage = async (req, res) => {
+  const id_arrivage = req.params.id;
+  const sql =
+    "SELECT A.*, F.raison_sociale From arrivage as A INNER JOIN fournisseur as F ON A.fournisseurID = F.idfournisseur WHERE idArrivage  = ? ";
+  db.query(sql, [id_arrivage], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.status(200).json(data);
+  });
+};
+
+exports.updateArrivage = async (req, res) => {
+  const id_arrivage = req.params.id;
+  const sql =
+    "UPDATE arrivage SET `designation`= ?, `montantTotal`= ?, `fournisseurID`= ?, `dateArrivage`= ? WHERE idArrivage = ?";
+
+  designation = req.body.designation;
+  montantTotal = req.body.montantTotal;
+  fournisseurID = req.body.fournisseurID;
+  dateArrivage = req.body.dateArrivage;
+
+  const values = [designation, montantTotal, fournisseurID, dateArrivage];
+
+  db.query(sql, [...values, id_arrivage], (err, data) => {
+    if (err) return res.send(err);
+    return res.status(201).json(req.body);
+  });
+};
+
+exports.removeArrivage = async (req, res) => {
+  const id_arrivage = req.params.id;
+  const sql = " DELETE FROM arrivage WHERE idArrivage = ? ";
+
+  db.query(sql, [id_arrivage], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
   });
 };

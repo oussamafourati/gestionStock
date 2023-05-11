@@ -95,6 +95,13 @@ dateArrivage VARCHAR(255)
 );
 /**************************************/
 
+/**********************************/
+SELECT A.*, F.raison_sociale 
+From arrivage as A 
+INNER JOIN fournisseur as F 
+ON A.fournisseurID = F.idfournisseur
+
+
 UPDATE category
 SET nom = "oussama" , image = "fpikdfka" , id_parent = 7
 WHERE idcategory = 3;
@@ -129,9 +136,3 @@ SELECT fournisseur.*, piece_jointes.*
     JOIN piece_jointes ON fournisseur.piecejointes = piece_jointes.idpj;
 
 
-SELECT P.*, C.nom, F.raison_sociale 
-From produit as P 
-INNER JOIN category as C 
-ON P.categoryID = C.idcategory 
-INNER JOIN fournisseur as F 
-ON P.fournisseurID = F.idfournisseur
