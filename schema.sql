@@ -108,6 +108,16 @@ piecejointes LONGTEXT
 );
 /**************************************/
 
+/******* Table Charges *******/
+
+CREATE TABLE charges (
+idCharges integer PRIMARY KEY AUTO_INCREMENT,
+typeCharges VARCHAR(255) not null,
+montantCharges integer,
+dateCharges VARCHAR(255)
+);
+/**************************************/
+
 /**********************************/
 SELECT AP.*, A.*, P.nomProduit
 From arrivageProduit as A P
