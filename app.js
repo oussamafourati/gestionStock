@@ -13,6 +13,7 @@ const productRoute = require("./routes/produit.route.js");
 const ArrivageRoute = require("./routes/arrivage.route.js");
 const arrivageProduitRoute = require("./routes/arrivageProduit.route.js");
 const chargesRoute = require("./routes/charges.route.js");
+const factureRoute = require("./routes/facture.route.js");
 
 app.use("/category", categoryRouter);
 app.use("/fournisseur", fournisseurRouter);
@@ -22,6 +23,7 @@ app.use("/product", productRoute);
 app.use("/arrivage", ArrivageRoute);
 app.use("/arrivageProduit", arrivageProduitRoute);
 app.use("/charges", chargesRoute);
+app.use("/factures", factureRoute);
 
 app.listen(8000, () => {
   console.log("Connected to backend.");

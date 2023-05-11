@@ -118,13 +118,48 @@ dateCharges VARCHAR(255)
 );
 /**************************************/
 
+/******* Table Facture *******/
+
+CREATE TABLE facture (
+idFacture integer PRIMARY KEY AUTO_INCREMENT,
+designationFacture VARCHAR(255) not null,
+dateFacturation VARCHAR(255),
+montantHt integer,
+montantTtc integer,
+datePaiement VARCHAR(255),
+modePaiement VARCHAR(255),
+statusFacture VARCHAR(255),
+articles VARCHAR(255),
+clientID integer,
+FOREIGN KEY (clientID) REFERENCES client_physique(idclient_p)
+);
+/**************************************/
+
+/******* Table Produit/Facture *******/
+
+CREATE TABLE produitFacture (
+idCharges integer PRIMARY KEY AUTO_INCREMENT,
+typeCharges VARCHAR(255) not null,
+montantCharges integer,
+dateCharges VARCHAR(255)
+);
+/**************************************/
+
+/******* Table Comptes *******/
+
+CREATE TABLE comptes (
+idCharges integer PRIMARY KEY AUTO_INCREMENT,
+typeCharges VARCHAR(255) not null,
+montantCharges integer,
+dateCharges VARCHAR(255)
+);
+/**************************************/
+
 /**********************************/
-SELECT AP.*, A.*, P.nomProduit
-From arrivageProduit as A P
-INNER JOIN arrivage as A 
-ON AP.arrivageID = A.idArrivage
-INNER JOIN produit as P 
-ON AP.produitID = P.idproduit
+SELECT F.*, C.*
+From facture as F
+INNER JOIN client_physique as C
+ON F.clientID = C.idclient_p
 
 
 UPDATE category
