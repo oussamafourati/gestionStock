@@ -1,13 +1,8 @@
-const mysql = require("mysql2");
+
 const multer = require("multer");
 const path = require("path");
+const db = require("../db.js");
 
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "stock_app",
-});
 
 const storage = multer.diskStorage({
   destination: "./image/",
@@ -43,9 +38,9 @@ exports.getOne = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const sql = "INSERT INTO category(`nom`, `image`, `id_parent`) VALUES (?)";
+  const sql = "INSERT INTO category(`nom`, `image`, `id_parent`,`final_level`) VALUES (?)";
 
-  const values = [req.body.nom, req.file.filename, req.body.id_parent];
+  const values = [req.body.nom, req.file.filename, req.body.id_parent,req.body.final_level];
 
   db.query(sql, [values], (err, data) => {
     if (err) return res.send(err);
