@@ -157,16 +157,6 @@ role integer
 );
 /**************************************/
 
-/******* Table Avances *******/
-
-CREATE TABLE avances (
-idCompte integer PRIMARY KEY AUTO_INCREMENT,
-username VARCHAR(255) not null,
-password VARCHAR(255) not null,
-role integer
-);
-/**************************************/
-
 /******* Table notes *******/
 
 CREATE TABLE notes (
@@ -176,6 +166,26 @@ created_at VARCHAR(255) not null
 );
 /**************************************/
 
+/******* Table Stocks *******/
+
+CREATE TABLE stocks (
+idStock int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Quantite int(11) DEFAULT 0,
+Disponible int(11) DEFAULT 0,
+produitID integer not null,
+FOREIGN KEY (produitID) REFERENCES produit(idproduit)
+);
+/**************************************/
+
+/******* Table Avances *******/
+
+CREATE TABLE avances (
+idCompte integer PRIMARY KEY AUTO_INCREMENT,
+username VARCHAR(255) not null,
+password VARCHAR(255) not null,
+role integer
+);
+/**************************************/
 /**********************************/
 SELECT PF.*, P.*, F.*
 From produitFacture as PF
