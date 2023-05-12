@@ -2,24 +2,36 @@ const db = require("../config/db.config");
 
 exports.getAll = async (req, res) => {
   const sql = "SELECT * FROM category";
-  db.query(sql, (err, data) => {
+  db.query(sql, (err, results) => {
     if (err) {
       console.log(err);
-      return res.json(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
     }
-    return res.status(201).send(data);
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };
 
 exports.getOne = async (req, res) => {
   const categoryId = req.params.id;
   const sql = "SELECT * FROM category WHERE idcategory = ? ";
-  db.query(sql, [categoryId], (err, data) => {
+  db.query(sql, [categoryId], (err, results) => {
     if (err) {
       console.log(err);
-      return res.json(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
     }
-    return res.status(201).send(data);
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };
 
@@ -34,15 +46,24 @@ exports.create = async (req, res) => {
 
   const values = [nom, image, id_parent, final_level];
 
-  db.query(sql, [values], (err, data) => {
-    if (err) return res.send(err);
-    return res.status(201).send(data);
+  db.query(sql, [values], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };
 
 exports.update = async (req, res) => {
   const categoryId = req.params.id;
-  const q =
+  const sql =
     "UPDATE category SET `nom`= ?, `image`= ?, `id_parent`= ?, `final_level`= ? WHERE idcategory = ?";
 
   const values = [
@@ -52,18 +73,36 @@ exports.update = async (req, res) => {
     req.body.final_level,
   ];
 
-  db.query(q, [...values, categoryId], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
+  db.query(sql, [...values, categoryId], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };
 
 exports.remove = async (req, res) => {
   const categoryId = req.params.id;
-  const q = " DELETE FROM category WHERE idcategory = ? ";
+  const sql = " DELETE FROM category WHERE idcategory = ? ";
 
-  db.query(q, [categoryId], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
+  db.query(sql, [categoryId], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };

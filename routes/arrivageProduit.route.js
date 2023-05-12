@@ -15,9 +15,11 @@ const upload = multer({
 });
 
 router.post("/newArrivageProduit", createArrivageProduit);
+// router.post("/newArrivageProduit", upload.single("piecejointes"), createArrivageProduit);
 router.get("/allArrivageProduit", getAllArrivageProduit);
 router.get("/OneArrivageProduit/:id", getOneArrivageProduit);
 router.put("/updateArrivageProduit/:id", updateArrivageProduit);
+// router.put("/updateArrivageProduit/:id", upload.single("piecejointes"), updateArrivageProduit);
 router.delete("/removeArrivageProduit/:id", removeArrivageProduit);
 
 module.exports = router;

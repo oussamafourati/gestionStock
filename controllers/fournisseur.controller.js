@@ -1,4 +1,3 @@
-const mysql = require("mysql2");
 const db = require("../config/db.config");
 
 exports.createFournisseur = async (req, res) => {

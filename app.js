@@ -5,18 +5,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const categoryRouter = require("./routes/category.route.js");
-const fournisseurRouter = require("./routes/fournisseur.route.js");
-const clientphysiqueRouter = require("./routes/clientpyhsique.route.js");
-const clientMoraleRouter = require("./routes/clientmorale.route.js");
-const productRoute = require("./routes/produit.route.js");
-const ArrivageRoute = require("./routes/arrivage.route.js");
-const arrivageProduitRoute = require("./routes/arrivageProduit.route.js");
-const chargesRoute = require("./routes/charges.route.js");
-const factureRoute = require("./routes/facture.route.js");
-const produitFactureRoute = require("./routes/produitFacture.route.js");
-const accountRoute = require("./routes/compte.route.js");
-const noteRoute = require("./routes/notes.route.js");
+const categoryRouter = require("./routes/category.route");
+const fournisseurRouter = require("./routes/fournisseur.route");
+const clientphysiqueRouter = require("./routes/clientpyhsique.route");
+const clientMoraleRouter = require("./routes/clientmorale.route");
+const productRoute = require("./routes/produit.route");
+const ArrivageRoute = require("./routes/arrivage.route");
+const arrivageProduitRoute = require("./routes/arrivageProduit.route");
+const chargesRoute = require("./routes/charges.route");
+const factureRoute = require("./routes/facture.route");
+const produitFactureRoute = require("./routes/produitFacture.route");
+const accountRoute = require("./routes/compte.route");
+const noteRoute = require("./routes/notes.route");
+// const stockRoute = require("./routes/stock.route");
 
 app.use("/category", categoryRouter);
 app.use("/fournisseur", fournisseurRouter);
@@ -30,6 +31,7 @@ app.use("/factures", factureRoute);
 app.use("/produitFactures", produitFactureRoute);
 app.use("/user", accountRoute);
 app.use("/notes", noteRoute);
+// app.use("/stock", stockRoute);
 
 app.listen(8000, () => {
   console.log("Connected to backend.");
