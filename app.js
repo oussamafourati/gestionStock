@@ -16,6 +16,7 @@ const chargesRoute = require("./routes/charges.route.js");
 const factureRoute = require("./routes/facture.route.js");
 const produitFactureRoute = require("./routes/produitFacture.route.js");
 const accountRoute = require("./routes/compte.route.js");
+const noteRoute = require("./routes/notes.route.js");
 
 app.use("/category", categoryRouter);
 app.use("/fournisseur", fournisseurRouter);
@@ -28,6 +29,7 @@ app.use("/charges", chargesRoute);
 app.use("/factures", factureRoute);
 app.use("/produitFactures", produitFactureRoute);
 app.use("/user", accountRoute);
+app.use("/notes", noteRoute);
 
 app.listen(8000, () => {
   console.log("Connected to backend.");

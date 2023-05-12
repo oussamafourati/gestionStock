@@ -157,6 +157,25 @@ role integer
 );
 /**************************************/
 
+/******* Table Avances *******/
+
+CREATE TABLE avances (
+idCompte integer PRIMARY KEY AUTO_INCREMENT,
+username VARCHAR(255) not null,
+password VARCHAR(255) not null,
+role integer
+);
+/**************************************/
+
+/******* Table notes *******/
+
+CREATE TABLE notes (
+idNote integer PRIMARY KEY AUTO_INCREMENT,
+description VARCHAR(255) not null,
+created_at VARCHAR(255) not null
+);
+/**************************************/
+
 /**********************************/
 SELECT PF.*, P.*, F.*
 From produitFacture as PF
