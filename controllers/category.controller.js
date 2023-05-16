@@ -2,7 +2,7 @@ const db = require("../config/db.config");
 
 exports.getAll = async (req, res) => {
   const sql = "SELECT * FROM category";
-  db.query(sql, (err, results) => {
+  db.query(sql, (err, data) => {
     if (err) {
       console.log(err);
       return res.status(500).json({
@@ -10,17 +10,14 @@ exports.getAll = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: true,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
 exports.getOne = async (req, res) => {
   const categoryId = req.params.id;
   const sql = "SELECT * FROM category WHERE idcategory = ? ";
-  db.query(sql, [categoryId], (err, results) => {
+  db.query(sql, [categoryId], (err, data) => {
     if (err) {
       console.log(err);
       return res.status(500).json({
@@ -28,10 +25,7 @@ exports.getOne = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: true,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
@@ -39,14 +33,13 @@ exports.create = async (req, res) => {
   const sql =
     "INSERT INTO category(`nom`, `image`, `id_parent`, `final_level`) VALUES (?)";
 
-  image = req.file.buffer.toString("base64");
+  image = req.body.image;
   nom = req.body.nom;
   id_parent = req.body.id_parent;
   final_level = req.body.final_level;
-
   const values = [nom, image, id_parent, final_level];
 
-  db.query(sql, [values], (err, results) => {
+  db.query(sql, [values], (err, data) => {
     if (err) {
       console.log(err);
       return res.status(500).json({
@@ -54,10 +47,7 @@ exports.create = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: true,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
@@ -68,7 +58,8 @@ exports.update = async (req, res) => {
 
   const values = [
     req.body.nom,
-    req.file.buffer.toString("base64"),
+    req.body.image,
+    // req.file.buffer.toString("base64"),
     req.body.id_parent,
     req.body.final_level,
   ];
