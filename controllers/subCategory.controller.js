@@ -27,11 +27,12 @@ exports.getOneSubCategory = async (req, res) => {
 
 exports.createNewSubCategory = async (req, res) => {
   const sql =
-    "INSERT INTO SubCategory(`subDescription`, `parentID`) VALUES (?)";
+    "INSERT INTO SubCategory(`title`, `subDescription`, `parentID`) VALUES (?)";
+  title = req.body.title;
   subDescription = req.body.subDescription;
   parentID = req.body.parentID;
 
-  const values = [subDescription, parentID];
+  const values = [title, subDescription, parentID];
 
   db.query(sql, [values], (err, data) => {
     if (err) return res.send(err);
@@ -42,12 +43,13 @@ exports.createNewSubCategory = async (req, res) => {
 exports.updateSubCategory = async (req, res) => {
   const idSubCategory = req.params.id;
   const sql =
-    "UPDATE SubCategory SET `subDescription`=?, `parentID`=? WHERE idSubCategory = ?";
+    "UPDATE SubCategory SET `title`=?, `subDescription`=?, `parentID`=? WHERE idSubCategory = ?";
 
+  title = req.body.title;
   subDescription = req.body.subDescription;
   parentID = req.body.parentID;
 
-  const values = [subDescription, parentID];
+  const values = [title, subDescription, parentID];
 
   db.query(sql, [...values, idSubCategory], (err, data) => {
     if (err) return res.send(err);

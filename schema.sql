@@ -181,7 +181,8 @@ FOREIGN KEY (produitID) REFERENCES produit(idproduit)
 
 CREATE TABLE SubCategory (
 idSubCategory int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-subDescription VARCHAR(255) NOT NULL,
+title VARCHAR(255) NOT NULL,
+subDescription VARCHAR(255),
 parentID integer not null,
 FOREIGN KEY (parentID) REFERENCES category(idcategory)
 );
@@ -228,7 +229,7 @@ WHERE idcategory = piecejointes;
 ALTER TABLE fournisseur
 ADD FOREIGN KEY (piece_jointes) REFERENCES piece_jointes(idpj);
 
-DROP TABLE arrivage;
+DROP TABLE SubCategory;
 
 INSERT INTO piece_jointes (fichier)
 VALUES
