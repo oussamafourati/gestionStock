@@ -1,26 +1,37 @@
-const mysql = require("mysql2");
 const db = require("../config/db.config");
 
 exports.getAllCharges = async (req, res) => {
   const sql = "SELECT * FROM charges";
-  db.query(sql, (err, data) => {
+  db.query(sql, (err, results) => {
     if (err) {
       console.log(err);
-      return res.json(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
     }
-    return res.status(201).send(data);
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };
 
 exports.getOneCharge = async (req, res) => {
   const chargesId = req.params.id;
   const sql = "SELECT * FROM charges WHERE idCharges = ? ";
-  db.query(sql, [chargesId], (err, data) => {
+  db.query(sql, [chargesId], (err, results) => {
     if (err) {
       console.log(err);
-      return res.json(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
     }
-    return res.status(201).send(data);
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };
 
@@ -34,9 +45,18 @@ exports.createNewCharges = async (req, res) => {
 
   const values = [typeCharges, montantCharges, dateCharges];
 
-  db.query(sql, [values], (err, data) => {
-    if (err) return res.send(err);
-    return res.status(201).send(data);
+  db.query(sql, [values], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };
 
@@ -51,9 +71,18 @@ exports.updateCharges = async (req, res) => {
 
   const values = [typeCharges, montantCharges, dateCharges];
 
-  db.query(sql, [...values, chargesId], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
+  db.query(sql, [...values, chargesId], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };
 
@@ -61,8 +90,17 @@ exports.removeCharges = async (req, res) => {
   const chargesId = req.params.id;
   const sql = " DELETE FROM charges WHERE idCharges = ? ";
 
-  db.query(sql, [chargesId], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
+  db.query(sql, [chargesId], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };

@@ -10,19 +10,21 @@ const {
   removeFournisseur,
 } = require("../controllers/fournisseur.controller");
 
-const upload = multer({
-  storage: multer.memoryStorage(),
+let storage = multer.memoryStorage(); //CHANGE HERE
+
+let upload = multer({
+  storage: storage,
 });
 
-// router.post(
-//   "/newfournisseur",
-//   upload.fields([
-//     { name: "logo", maxCount: 1 },
-//     { name: "piecejointes", maxCount: 1 },
-//   ]),
-//   createFournisseur
-// );
-router.post("/newfournisseur", upload.single("logo"), createFournisseur);
+router.post(
+  "/newfournisseur",
+  upload.fields([
+    { name: "logo", maxCount: 1 },
+    { name: "piecejointes", maxCount: 1 },
+  ]),
+  createFournisseur
+);
+// router.post("/newfournisseur", upload.single("logo"), createFournisseur);
 router.get("/all", getAllFournisseur);
 router.get("/one/:id", getOneFournisseur);
 // router.put(

@@ -1,5 +1,3 @@
-const mysql = require("mysql2");
-
 const db = require("../config/db.config");
 
 exports.createArrivageProduit = async (req, res) => {
@@ -15,8 +13,17 @@ exports.createArrivageProduit = async (req, res) => {
   const values = [produitID, arrivageID, quantite, piecejointes];
 
   db.query(sql, [values], (err, data) => {
-    if (err) return res.send(err);
-    return res.status(201).send(data);
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };
 
@@ -26,9 +33,15 @@ exports.getAllArrivageProduit = async (req, res) => {
   db.query(sql, (err, data) => {
     if (err) {
       console.log(err);
-      return res.json(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
     }
-    return res.status(200).json(data);
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };
 
@@ -39,9 +52,15 @@ exports.getOneArrivageProduit = async (req, res) => {
   db.query(sql, [id_arrivageproduit], (err, data) => {
     if (err) {
       console.log(err);
-      return res.json(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
     }
-    return res.status(200).json(data);
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };
 
@@ -59,8 +78,17 @@ exports.updateArrivageProduit = async (req, res) => {
   const values = [produitID, arrivageID, quantite, piecejointes];
 
   db.query(sql, [...values, id_arrivageproduit], (err, data) => {
-    if (err) return res.send(err);
-    return res.status(201).json(req.body);
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };
 
@@ -69,7 +97,16 @@ exports.removeArrivageProduit = async (req, res) => {
   const sql = " DELETE FROM arrivageProduit WHERE idArrivageProduit = ? ";
 
   db.query(sql, [id_arrivageproduit], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: results,
+    });
   });
 };

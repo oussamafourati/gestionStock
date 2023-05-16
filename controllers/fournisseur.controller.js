@@ -1,4 +1,3 @@
-const mysql = require("mysql2");
 const db = require("../config/db.config");
 
 exports.createFournisseur = async (req, res) => {
@@ -11,12 +10,12 @@ exports.createFournisseur = async (req, res) => {
   mail = req.body.mail;
   type = req.body.type;
   matricule_fiscale = req.body.matricule_fiscale;
-  logo = req.file.buffer.toString("base64");
-  //logo = req.files.buffer.toString("base64");
+  // logo = req.files;
+  logo = req.files.logo[0].buffer.toString("base64");
   rib = req.body.rib;
   etat = req.body.etat;
-  //piecejointes = req.files.buffer.toString("base64");
-  piecejointes = req.body.piecejointes;
+  // piecejointes = req.files;
+  piecejointes = req.files.piecejointes[0].buffer.toString("base64");
 
   const values = [
     raison_sociale,
@@ -31,10 +30,17 @@ exports.createFournisseur = async (req, res) => {
     piecejointes,
   ];
 
-  db.query(sql, [values], (err, data) => {
-    if (err) return res.send(err);
-    return res.status(201).json(req.body);
+  db.query(sql, [values], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json(data);
   });
+  console.log(logo);
 };
 
 exports.getAllFournisseur = async (req, res) => {
@@ -71,12 +77,10 @@ exports.updateFournisseur = async (req, res) => {
   mail = req.body.mail;
   type = req.body.type;
   matricule_fiscale = req.body.matricule_fiscale;
-  logo = req.file.buffer.toString("base64");
-  //logo = req.files.buffer.toString("base64");
+  logo = req.file.logo[0].buffer.toString("base64");
   rib = req.body.rib;
   etat = req.body.etat;
-  piecejointes = req.body.piecejointes;
-  //piecejointes = req.files.buffer.toString("base64");
+  piecejointes = req.files.piecejointes[0].buffer.toString("base64");
 
   const values = [
     raison_sociale,

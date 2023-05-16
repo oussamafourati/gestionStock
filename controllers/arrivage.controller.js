@@ -1,5 +1,3 @@
-const mysql = require("mysql2");
-
 const db = require("../config/db.config");
 
 exports.createArrivage = async (req, res) => {
@@ -14,8 +12,17 @@ exports.createArrivage = async (req, res) => {
   const values = [designation, montantTotal, fournisseurID, dateArrivage];
 
   db.query(sql, [values], (err, data) => {
-    if (err) return res.send(err);
-    return res.status(201).send(data);
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: 0,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json({
+      success: 1,
+      data: results,
+    });
   });
 };
 
@@ -25,9 +32,15 @@ exports.getAllArrivage = async (req, res) => {
   db.query(sql, (err, data) => {
     if (err) {
       console.log(err);
-      return res.json(err);
+      return res.status(500).json({
+        success: 0,
+        message: "Database connection errror",
+      });
     }
-    return res.status(200).json(data);
+    return res.status(200).json({
+      success: 1,
+      data: results,
+    });
   });
 };
 
@@ -38,9 +51,15 @@ exports.getOneArrivage = async (req, res) => {
   db.query(sql, [id_arrivage], (err, data) => {
     if (err) {
       console.log(err);
-      return res.json(err);
+      return res.status(500).json({
+        success: 0,
+        message: "Database connection errror",
+      });
     }
-    return res.status(200).json(data);
+    return res.status(200).json({
+      success: 1,
+      data: results,
+    });
   });
 };
 
@@ -57,8 +76,17 @@ exports.updateArrivage = async (req, res) => {
   const values = [designation, montantTotal, fournisseurID, dateArrivage];
 
   db.query(sql, [...values, id_arrivage], (err, data) => {
-    if (err) return res.send(err);
-    return res.status(201).json(req.body);
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: 0,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json({
+      success: 1,
+      data: results,
+    });
   });
 };
 
@@ -67,7 +95,16 @@ exports.removeArrivage = async (req, res) => {
   const sql = " DELETE FROM arrivage WHERE idArrivage = ? ";
 
   db.query(sql, [id_arrivage], (err, data) => {
-    if (err) return res.send(err);
-    return res.json(data);
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: 0,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json({
+      success: 1,
+      data: results,
+    });
   });
 };
