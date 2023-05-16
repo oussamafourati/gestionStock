@@ -1,5 +1,5 @@
 const mysql = require("mysql2");
-const db = require("../db.js");
+const db = require("../config/db.config");
 
 exports.createFournisseur = async (req, res) => {
   const sql =
@@ -11,10 +11,12 @@ exports.createFournisseur = async (req, res) => {
   mail = req.body.mail;
   type = req.body.type;
   matricule_fiscale = req.body.matricule_fiscale;
-  logo = req.body.logo;
+  logo = req.file.buffer.toString("base64");
+  //logo = req.files.buffer.toString("base64");
   rib = req.body.rib;
   etat = req.body.etat;
-  piecejointes = req.files.buffer.toString("base64");
+  //piecejointes = req.files.buffer.toString("base64");
+  piecejointes = req.body.piecejointes;
 
   const values = [
     raison_sociale,
@@ -31,7 +33,7 @@ exports.createFournisseur = async (req, res) => {
 
   db.query(sql, [values], (err, data) => {
     if (err) return res.send(err);
-    return res.status(201).send(req.body);
+    return res.status(201).json(req.body);
   });
 };
 
@@ -69,10 +71,12 @@ exports.updateFournisseur = async (req, res) => {
   mail = req.body.mail;
   type = req.body.type;
   matricule_fiscale = req.body.matricule_fiscale;
-  logo = req.body.logo;
+  logo = req.file.buffer.toString("base64");
+  //logo = req.files.buffer.toString("base64");
   rib = req.body.rib;
   etat = req.body.etat;
-  piecejointes = req.files.buffer.toString("base64");
+  piecejointes = req.body.piecejointes;
+  //piecejointes = req.files.buffer.toString("base64");
 
   const values = [
     raison_sociale,
@@ -89,7 +93,7 @@ exports.updateFournisseur = async (req, res) => {
 
   db.query(q, [...values, id_fournisseur], (err, data) => {
     if (err) return res.send(err);
-    return res.status(201).send(data);
+    return res.status(201).json(data);
   });
 };
 
