@@ -38,10 +38,7 @@ exports.createFournisseur = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: true,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
   console.log(logo);
 };
@@ -80,12 +77,10 @@ exports.updateFournisseur = async (req, res) => {
   mail = req.body.mail;
   type = req.body.type;
   matricule_fiscale = req.body.matricule_fiscale;
-  logo = req.file.buffer.toString("base64");
-  //logo = req.files.buffer.toString("base64");
+  logo = req.file.logo[0].buffer.toString("base64");
   rib = req.body.rib;
   etat = req.body.etat;
-  piecejointes = req.body.piecejointes;
-  //piecejointes = req.files.buffer.toString("base64");
+  piecejointes = req.files.piecejointes[0].buffer.toString("base64");
 
   const values = [
     raison_sociale,

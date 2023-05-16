@@ -17,9 +17,11 @@ const factureRoute = require("./routes/facture.route");
 const produitFactureRoute = require("./routes/produitFacture.route");
 const accountRoute = require("./routes/compte.route");
 const noteRoute = require("./routes/notes.route");
+const subCategoryRoute = require("./routes/subCategory.route");
 // const stockRoute = require("./routes/stock.route");
 
 app.use("/category", categoryRouter);
+app.use("/subCategory", subCategoryRoute);
 app.use("/fournisseur", fournisseurRouter);
 app.use("/clientPyh", clientphysiqueRouter);
 app.use("/clientMo", clientMoraleRouter);

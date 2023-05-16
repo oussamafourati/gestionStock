@@ -177,6 +177,16 @@ FOREIGN KEY (produitID) REFERENCES produit(idproduit)
 );
 /**************************************/
 
+/******* Table SubCategory *******/
+
+CREATE TABLE SubCategory (
+idSubCategory int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+subDescription VARCHAR(255) NOT NULL,
+parentID integer not null,
+FOREIGN KEY (parentID) REFERENCES category(idcategory)
+);
+/**************************************/
+
 /******* Table Avances *******/
 
 CREATE TABLE avances (
