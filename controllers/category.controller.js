@@ -1,7 +1,8 @@
 const db = require("../config/db.config");
 
 exports.getAll = async (req, res) => {
-  const sql = "SELECT * FROM category";
+  const sql =
+    "SELECT C.*, S.title From category as C LEFT JOIN SubCategory as S ON C.idcategory = S.parentID ";
   db.query(sql, (err, data) => {
     if (err) {
       console.log(err);
@@ -33,7 +34,7 @@ exports.create = async (req, res) => {
   const sql =
     "INSERT INTO category(`nom`, `image`, `id_parent`, `final_level`) VALUES (?)";
 
-  image = req.body.image;
+  image = req.file.buffer.toString("base64");
   nom = req.body.nom;
   id_parent = req.body.id_parent;
   final_level = req.body.final_level;

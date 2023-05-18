@@ -10,7 +10,7 @@ const {
   removeFournisseur,
 } = require("../controllers/fournisseur.controller");
 
-let storage = multer.memoryStorage(); //CHANGE HERE
+let storage = multer.memoryStorage();
 
 let upload = multer({
   storage: storage,
@@ -24,15 +24,14 @@ router.post(
   ]),
   createFournisseur
 );
-// router.post("/newfournisseur", upload.single("logo"), createFournisseur);
-router.get("/all", getAllFournisseur);
-router.get("/one/:id", getOneFournisseur);
-// router.put(
-//   "/edit/:id",
-//   upload.fields([{ name: "logo" }, { name: "piecejointes" }]),
-//   updateFournisseur
-// );
-router.put("/edit/:id", upload.single("logo"), updateFournisseur);
-router.delete("/delete/:id", removeFournisseur);
+
+router.get("/allFournisseur", getAllFournisseur);
+router.get("/oneFournisseur/:id", getOneFournisseur);
+router.patch(
+  "/editFournisseur/:id",
+  upload.fields([{ name: "logo" }, { name: "piecejointes" }]),
+  updateFournisseur
+);
+router.delete("/deleteFournisseur/:id", removeFournisseur);
 
 module.exports = router;

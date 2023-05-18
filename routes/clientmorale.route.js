@@ -13,20 +13,18 @@ const {
   removeClientMo,
 } = require("../controllers/clientmoral.controller");
 
-// router.post(
-//   "/newClient",
-//   upload.fields([{ name: "avatar" }, { name: "piecejointes" }]),
-//   createClient_Phy
-// );
-router.post("/newClientMo", upload.single("logo"), createClient_Mo);
+router.post(
+  "/newClientMo",
+  upload.fields([{ name: "logo" }, { name: "piecejointes" }]),
+  createClient_Mo
+);
 router.get("/moraleclients", getAllClientMo);
-router.get("/one/:id", getOneClientMo);
-// router.put(
-//   "/edit/:id",
-//   upload.fields([{ name: "logo" }, { name: "piecejointes" }]),
-//   updateClientPhy
-// );
-router.put("/edit/:id", upload.single("logo"), updateClientMo);
-router.delete("/delete/:id", removeClientMo);
+router.get("/oneClientMorale/:id", getOneClientMo);
+router.patch(
+  "/editClientMorale/:id",
+  upload.fields([{ name: "logo" }, { name: "piecejointes" }]),
+  updateClientMo
+);
+router.delete("/deleteClientMorale/:id", removeClientMo);
 
 module.exports = router;

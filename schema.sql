@@ -229,7 +229,7 @@ WHERE idcategory = piecejointes;
 ALTER TABLE fournisseur
 ADD FOREIGN KEY (piece_jointes) REFERENCES piece_jointes(idpj);
 
-DROP TABLE SubCategory;
+DROP TABLE arrivage;
 
 INSERT INTO piece_jointes (fichier)
 VALUES

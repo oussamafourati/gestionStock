@@ -9,14 +9,12 @@ exports.createClient_Phy = async (req, res) => {
   adresse = req.body.adresse;
   tel = req.body.tel;
   mail = req.body.mail;
-  //avatar = req.files.buffer.toString("base64");
-  avatar = req.file.buffer.toString("base64");
+  avatar = req.files.avatar[0].buffer.toString("base64");
   rib = req.body.rib;
   etat = req.body.etat;
   remarque = req.body.remarque;
   credit = req.body.credit;
-  //piecejointes = req.files.buffer.toString("base64");
-  piecejointes = req.body.piecejointes;
+  piecejointes = req.files.piecejointes[0].buffer.toString("base64");
 
   const values = [
     raison_sociale,
@@ -71,14 +69,12 @@ exports.updateClientPhy = async (req, res) => {
   adresse = req.body.adresse;
   tel = req.body.tel;
   mail = req.body.mail;
-  //avatar = req.files.buffer.toString("base64");
-  avatar = req.file.buffer.toString("base64");
+  avatar = req.files.avatar[0].buffer.toString("base64");
   rib = req.body.rib;
   etat = req.body.etat;
   remarque = req.body.remarque;
   credit = req.body.credit;
-  //piecejointes = req.files.buffer.toString("base64");
-  piecejointes = req.body.piecejointes;
+  piecejointes = req.files.piecejointes[0].buffer.toString("base64");
 
   const values = [
     raison_sociale,
