@@ -15,9 +15,13 @@ const upload = multer({
 });
 
 router.post("/newProduct", upload.single("imageProduit"), createProduct);
-router.get("/getAll", getAllProducts);
-router.get("/getOne/:id", getOneProduct);
-router.put("/updateproduct/:id", upload.single("imageProduit"), updateProduct);
+router.get("/getAllProducts", getAllProducts);
+router.get("/getOneProduct/:id", getOneProduct);
+router.patch(
+  "/updateproduct/:id",
+  upload.single("imageProduit"),
+  updateProduct
+);
 router.delete("/deleteproduct/:id", removeProduct);
 
 module.exports = router;

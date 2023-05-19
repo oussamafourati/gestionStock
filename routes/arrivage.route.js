@@ -12,7 +12,7 @@ const {
 router.post("/newArrivage", createArrivage);
 router.get("/allArrivage", getAllArrivage);
 router.get("/oneArrivage/:id", getOneArrivage);
-router.put("/editArrivage/:id", updateArrivage);
+router.patch("/editArrivage/:id", updateArrivage);
 router.delete("/removeArrivage/:id", removeArrivage);
 
 module.exports = router;

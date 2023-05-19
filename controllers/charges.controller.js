@@ -2,7 +2,7 @@ const db = require("../config/db.config");
 
 exports.getAllCharges = async (req, res) => {
   const sql = "SELECT * FROM charges";
-  db.query(sql, (err, results) => {
+  db.query(sql, (err, data) => {
     if (err) {
       console.log(err);
       return res.status(500).json({
@@ -10,17 +10,14 @@ exports.getAllCharges = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: true,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
 exports.getOneCharge = async (req, res) => {
   const chargesId = req.params.id;
   const sql = "SELECT * FROM charges WHERE idCharges = ? ";
-  db.query(sql, [chargesId], (err, results) => {
+  db.query(sql, [chargesId], (err, data) => {
     if (err) {
       console.log(err);
       return res.status(500).json({
@@ -28,10 +25,7 @@ exports.getOneCharge = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: true,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 

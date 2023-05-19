@@ -19,10 +19,7 @@ exports.createArrivage = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: 1,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
@@ -37,10 +34,7 @@ exports.getAllArrivage = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: 1,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
@@ -56,10 +50,7 @@ exports.getOneArrivage = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: 1,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
@@ -83,10 +74,7 @@ exports.updateArrivage = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: 1,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
@@ -102,9 +90,6 @@ exports.removeArrivage = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: 1,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };

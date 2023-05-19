@@ -32,7 +32,7 @@ exports.createProduct = async (req, res) => {
 
   db.query(sql, [values], (err, data) => {
     if (err) return res.send(err);
-    return res.status(201).json(req.body);
+    return res.status(201).json(data);
   });
 };
 
@@ -100,7 +100,7 @@ exports.updateProduct = async (req, res) => {
 
   db.query(sql, [...values, id_product], (err, data) => {
     if (err) return res.send(err);
-    return res.status(201).json(req.body);
+    return res.status(201).json(data);
   });
 };
 

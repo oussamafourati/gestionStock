@@ -128,7 +128,7 @@ montantHt integer,
 montantTtc integer,
 datePaiement VARCHAR(255),
 modePaiement VARCHAR(255),
-statusFacture VARCHAR(255),
+statusFacture integer,
 articles VARCHAR(255),
 clientID integer,
 FOREIGN KEY (clientID) REFERENCES client_physique(idclient_p)
@@ -229,7 +229,7 @@ WHERE idcategory = piecejointes;
 ALTER TABLE fournisseur
 ADD FOREIGN KEY (piece_jointes) REFERENCES piece_jointes(idpj);
 
-DROP TABLE arrivage;
+DROP TABLE facture;
 
 INSERT INTO piece_jointes (fichier)
 VALUES
@@ -238,5 +238,17 @@ VALUES
 SELECT fournisseur.*, piece_jointes.*
     FROM fournisseur
     JOIN piece_jointes ON fournisseur.piecejointes = piece_jointes.idpj;
+
+
+select c.* from category as c 
+union all
+    select c.*, s.* from SubCategory as s
+    join category as c
+    on s.parentID = c.idcategory
+
+select c.nom, s.title
+from category c
+    join SubCategory s on s.parentID = c.idcategory 
+
 
 

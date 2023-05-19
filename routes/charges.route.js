@@ -12,7 +12,7 @@ const {
 router.post("/newCharges", createNewCharges);
 router.get("/allCharges", getAllCharges);
 router.get("/oneCharge/:id", getOneCharge);
-router.put("/editCharges/:id", updateCharges);
+router.patch("/editCharges/:id", updateCharges);
 router.delete("/removeCharges/:id", removeCharges);
 
 module.exports = router;

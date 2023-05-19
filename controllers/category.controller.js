@@ -2,7 +2,7 @@ const db = require("../config/db.config");
 
 exports.getAll = async (req, res) => {
   const sql =
-    "SELECT C.*, S.title From category as C LEFT JOIN SubCategory as S ON C.idcategory = S.parentID ";
+    "SELECT DISTINCT C.*, S.* From category as C LEFT JOIN SubCategory as S ON C.idcategory = S.parentID ";
   db.query(sql, (err, data) => {
     if (err) {
       console.log(err);
