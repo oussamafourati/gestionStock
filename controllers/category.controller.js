@@ -34,7 +34,7 @@ exports.create = async (req, res) => {
   const sql =
     "INSERT INTO category(`nom`, `image`, `id_parent`, `final_level`) VALUES (?)";
 
-  image = req.file.buffer.toString("base64");
+  image = req.body.image;
   nom = req.body.nom;
   id_parent = req.body.id_parent;
   final_level = req.body.final_level;
