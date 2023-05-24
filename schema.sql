@@ -7,7 +7,7 @@ idcategory integer PRIMARY KEY AUTO_INCREMENT,
 nom VARCHAR(255) NOT NULL,
 image VARCHAR(255) NOT NULL,
 id_parent integer NOT NULL,
-final_level integer not null,
+final_level integer not null
 );
 /**************************************/
 
@@ -229,7 +229,7 @@ WHERE idcategory = piecejointes;
 ALTER TABLE fournisseur
 ADD FOREIGN KEY (piece_jointes) REFERENCES piece_jointes(idpj);
 
-DROP TABLE facture;
+DROP TABLE category;
 
 INSERT INTO piece_jointes (fichier)
 VALUES
@@ -249,6 +249,4 @@ union all
 select c.nom, s.title
 from category c
     join SubCategory s on s.parentID = c.idcategory 
-
-
 

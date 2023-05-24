@@ -39,7 +39,7 @@ exports.createNewCharges = async (req, res) => {
 
   const values = [typeCharges, montantCharges, dateCharges];
 
-  db.query(sql, [values], (err, results) => {
+  db.query(sql, [values], (err, data) => {
     if (err) {
       console.log(err);
       return res.status(500).json({
@@ -47,10 +47,7 @@ exports.createNewCharges = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: true,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
