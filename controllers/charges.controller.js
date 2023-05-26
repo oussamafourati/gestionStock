@@ -31,13 +31,21 @@ exports.getOneCharge = async (req, res) => {
 
 exports.createNewCharges = async (req, res) => {
   const sql =
-    "INSERT INTO charges(`typeCharges`, `montantCharges`, `dateCharges`) VALUES (?)";
+    "INSERT INTO charges(`typeCharges`, `montantCharges`, `dateCharges`, `descriptionCharge`, `piecejointes`) VALUES (?)";
 
   typeCharges = req.body.typeCharges;
   montantCharges = req.body.montantCharges;
   dateCharges = req.body.dateCharges;
+  descriptionCharge = req.body.descriptionCharge;
+  piecejointes = req.body.piecejointes;
 
-  const values = [typeCharges, montantCharges, dateCharges];
+  const values = [
+    typeCharges,
+    montantCharges,
+    dateCharges,
+    descriptionCharge,
+    piecejointes,
+  ];
 
   db.query(sql, [values], (err, data) => {
     if (err) {
@@ -93,5 +101,19 @@ exports.removeCharges = async (req, res) => {
       success: true,
       data: results,
     });
+  });
+};
+
+exports.getSumCharges = async (req, res) => {
+  const sql = "SELECT SUM(montantCharges) AS prix_total FROM charges";
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json(data);
   });
 };

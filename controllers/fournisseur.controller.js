@@ -10,10 +10,10 @@ exports.createFournisseur = async (req, res) => {
   mail = req.body.mail;
   type = req.body.type;
   matricule_fiscale = req.body.matricule_fiscale;
-  logo = req.files.logo[0].buffer.toString("base64");
+  logo = req.body.logo;
   rib = req.body.rib;
   etat = req.body.etat;
-  piecejointes = req.files.piecejointes[0].buffer.toString("base64");
+  piecejointes = req.body.piecejointes;
 
   const values = [
     raison_sociale,

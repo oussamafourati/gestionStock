@@ -114,7 +114,9 @@ CREATE TABLE charges (
 idCharges integer PRIMARY KEY AUTO_INCREMENT,
 typeCharges VARCHAR(255) not null,
 montantCharges integer,
-dateCharges VARCHAR(255)
+dateCharges VARCHAR(255),
+descriptionCharge VARCHAR(255),
+piecejointes LONGTEXT
 );
 /**************************************/
 
@@ -229,7 +231,7 @@ WHERE idcategory = piecejointes;
 ALTER TABLE fournisseur
 ADD FOREIGN KEY (piece_jointes) REFERENCES piece_jointes(idpj);
 
-DROP TABLE category;
+DROP TABLE charges;
 
 INSERT INTO piece_jointes (fichier)
 VALUES
@@ -250,3 +252,6 @@ select c.nom, s.title
 from category c
     join SubCategory s on s.parentID = c.idcategory 
 
+
+SELECT SUM(montantCharges) AS prix_total
+FROM charges
