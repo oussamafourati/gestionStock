@@ -4,15 +4,19 @@ const db = require("../config/db.config");
 // @desc    Create a new Product
 exports.createProduct = async (req, res) => {
   const sql =
-    "INSERT INTO produit(`nomProduit`, `imageProduit`, `marque`, `prixAchatHt`, `prixAchatTtc`, `prixVente`, `remise`,`remarqueProduit`, `categoryID`, `fournisseurID`) VALUES (?)";
+    "INSERT INTO produit(`nomProduit`, `imageProduit`, `marque`, `prixAchatHt`, `prixAchatTtc`, `prixVente`, `remise`, `Benifice`, `PourcentageBenifice`, `PrixRemise`, `PourcentageRemise`, `remarqueProduit`, `categoryID`, `fournisseurID`) VALUES (?)";
 
   nomProduit = req.body.nomProduit;
-  imageProduit = req.file.buffer.toString("base64");
+  imageProduit = req.body.imageProduit;
   marque = req.body.marque;
   prixAchatHt = req.body.prixAchatHt;
   prixAchatTtc = req.body.prixAchatTtc;
   prixVente = req.body.prixVente;
   remise = req.body.remise;
+  Benifice = req.body.Benifice;
+  PourcentageBenifice = req.body.PourcentageBenifice;
+  PrixRemise = req.body.PrixRemise;
+  PourcentageRemise = req.body.PourcentageRemise;
   remarqueProduit = req.body.remarqueProduit;
   categoryID = req.body.categoryID;
   fournisseurID = req.body.fournisseurID;
@@ -22,9 +26,13 @@ exports.createProduct = async (req, res) => {
     imageProduit,
     marque,
     prixAchatHt,
-    prixAchatTtc,
+    (prixAchatTtc = prixAchatHt * 1.19),
     prixVente,
     remise,
+    (Benifice = prixVente - prixAchatTtc),
+    (PourcentageBenifice = (Benifice * 100) / prixVente),
+    PrixRemise,
+    (PourcentageRemise = (prixVente - remise) / (remise * 100)),
     remarqueProduit,
     categoryID,
     fournisseurID,
@@ -39,8 +47,7 @@ exports.createProduct = async (req, res) => {
 // @route   GET /product/getAll
 // @desc    Get all products
 exports.getAllProducts = async (req, res) => {
-  const sql =
-    "SELECT P.*, C.nom, F.raison_sociale From produit as P INNER JOIN category as C ON P.categoryID = C.idcategory INNER JOIN fournisseur as F ON P.fournisseurID = F.idfournisseur";
+  const sql = "SELECT * from produit";
   db.query(sql, (err, data) => {
     if (err) {
       console.log(err);
@@ -56,7 +63,8 @@ exports.getAllProducts = async (req, res) => {
 exports.getOneProduct = async (req, res) => {
   const id_product = req.params.id;
   const sql =
-    "SELECT P.*, C.nom, F.raison_sociale From produit as P INNER JOIN category as C ON P.categoryID = C.idcategory INNER JOIN fournisseur as F ON P.fournisseurID = F.idfournisseur WHERE idproduit  = ? ";
+    // "SELECT P.*, C.nom, F.raison_sociale From produit as P INNER JOIN category as C ON P.categoryID = C.idcategory INNER JOIN fournisseur as F ON P.fournisseurID = F.idfournisseur WHERE idproduit  = ? ";
+    "SELECT * FROM produit WHERE idproduit = ? ";
   db.query(sql, [id_product], (err, data) => {
     if (err) {
       console.log(err);
@@ -75,7 +83,7 @@ exports.updateProduct = async (req, res) => {
     "UPDATE produit SET `nomProduit`= ?, `imageProduit`= ?, `marque`= ?, `prixAchatHt`= ?, `prixAchatTtc`= ?, `prixVente`= ?, `remise`= ?, `remarqueProduit`= ?, `categoryID`= ?, `fournisseurID`= ? WHERE idproduit = ?";
 
   nomProduit = req.body.nomProduit;
-  imageProduit = req.file.buffer.toString("base64");
+  imageProduit = req.body.imageProduit;
   marque = req.body.marque;
   prixAchatHt = req.body.prixAchatHt;
   prixAchatTtc = req.body.prixAchatTtc;

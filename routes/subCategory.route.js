@@ -10,7 +10,7 @@ const {
 } = require("../controllers/subCategory.controller");
 
 router.get("/allsubcategories", getAllSubCategory);
-router.get("/onesubcategory/:id", getOneSubCategory);
+router.get("/onesubcategory", getOneSubCategory);
 router.post("/newsubcategory", createNewSubCategory);
 router.patch("/editsubcategory/:id", updateSubCategory);
 router.delete("/deletesubcategory/:id", removeSubCategory);

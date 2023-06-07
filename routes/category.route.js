@@ -14,7 +14,7 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
-router.get("/all", getAll);
+router.get("/all", upload.single("image"), getAll);
 router.get("/one/:id", getOne);
 router.post("/new", create);
 router.patch("/edit/:id", upload.single("image"), update);

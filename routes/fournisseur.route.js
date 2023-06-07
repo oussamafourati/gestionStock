@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 
 const {
   getAllFournisseur,
@@ -9,7 +10,15 @@ const {
   removeFournisseur,
 } = require("../controllers/fournisseur.controller");
 
-router.post("/newfournisseur", createFournisseur);
+const upload = multer({
+  storage: multer.memoryStorage(),
+});
+
+router.post(
+  "/newfournisseur",
+  upload.fields([{ name: "logo" }, { name: "piecejointes" }]),
+  createFournisseur
+);
 
 router.get("/allFournisseur", getAllFournisseur);
 router.get("/oneFournisseur/:id", getOneFournisseur);

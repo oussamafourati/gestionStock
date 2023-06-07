@@ -9,7 +9,6 @@ const {
   updateProduct,
   removeProduct,
 } = require("../controllers/produit.controller");
-
 const upload = multer({
   storage: multer.memoryStorage(),
 });
@@ -17,11 +16,7 @@ const upload = multer({
 router.post("/newProduct", upload.single("imageProduit"), createProduct);
 router.get("/getAllProducts", getAllProducts);
 router.get("/getOneProduct/:id", getOneProduct);
-router.patch(
-  "/updateproduct/:id",
-  upload.single("imageProduit"),
-  updateProduct
-);
+router.patch("/updateproduct/:id", updateProduct);
 router.delete("/deleteproduct/:id", removeProduct);
 
 module.exports = router;

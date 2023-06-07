@@ -5,7 +5,7 @@ USE stock_app;
 CREATE TABLE category (
 idcategory integer PRIMARY KEY AUTO_INCREMENT,
 nom VARCHAR(255) NOT NULL,
-image VARCHAR(255) NOT NULL,
+image LONGTEXT NOT NULL,
 id_parent integer NOT NULL,
 final_level integer not null
 );
@@ -75,6 +75,10 @@ prixAchatHt integer not null,
 prixAchatTtc integer not null,
 prixVente integer not null,
 remise integer,
+PourcentageBenifice integer,
+Benifice integer,
+PrixRemise integer,
+PourcentageRemise integer,
 remarqueProduit VARCHAR(255),
 categoryID int,
 FOREIGN KEY (categoryID) REFERENCES category(idcategory),
@@ -255,3 +259,135 @@ from category c
 
 SELECT SUM(montantCharges) AS prix_total
 FROM charges
+
+SELECT t1.nom FROM
+category AS t1 LEFT JOIN category as t2
+ON t1.idcategory = t2.id_parent
+WHERE t2.idcategory IS NULL;
+
+SELECT ANY_VALUE(CONCAT( REPEAT(' ', COUNT(parent.name) - 1), node.name)) AS name
+FROM nested_category AS node,
+        nested_category AS parent
+WHERE node.lft BETWEEN parent.lft AND parent.rgt
+ORDER BY node.name
+GROUP BY node.lft;
+
+CREATE TABLE category (
+  idcategory int(10) unsigned NOT NULL AUTO_INCREMENT,
+  nom varchar(255) NOT NULL,
+  image varchar(255) NOT NULL,
+  id_parent int(10) unsigned DEFAULT NULL,
+  final_level integer not null,
+  PRIMARY KEY (idcategory),
+  FOREIGN KEY (id_parent) REFERENCES category (idcategory) 
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO category(nom,id_parent) 
+VALUES('Laptops & PC',1);
+
+INSERT INTO category(nom,id_parent) 
+VALUES('Laptops',2);
+INSERT INTO category(nom,id_parent) 
+VALUES('PC',2);
+
+INSERT INTO category(nom,id_parent) 
+VALUES('Cameras & photo',2);
+INSERT INTO category(nom,id_parent) 
+VALUES('Camera',5);
+
+INSERT INTO category(nom,id_parent) 
+VALUES('Phones & Accessories',2);
+INSERT INTO category(nom,id_parent) 
+VALUES('Smartphones',7);
+
+INSERT INTO category(nom,id_parent) 
+VALUES('Android',8);
+INSERT INTO category(nom,id_parent) 
+VALUES('iOS',9);
+INSERT INTO category(nom,id_parent) 
+VALUES('Other Smartphones',8);
+
+INSERT INTO category(nom,id_parent) 
+VALUES('Batteries',7);
+INSERT INTO category(nom,id_parent) 
+VALUES('Headsets',7);
+INSERT INTO category(nom,id_parent) 
+VALUES('Screen Protectors',7);
+
+WITH RECURSIVE category_path (idcategory, nom, id_parent) AS
+(
+  SELECT idcategory, nom, id_parent
+    FROM category
+    WHERE idcategory = 9 -- child node
+  UNION ALL
+  SELECT c.idcategory, c.nom, c.id_parent
+    FROM category_path AS cp JOIN category AS c
+      ON cp.id_parent = c.idcategory
+)
+SELECT * FROM category_path;
+
+CREATE TABLE categories (
+    category_id INT PRIMARY KEY,
+    category_name VARCHAR(255),
+    parent_category_id INT
+);
+
+WITH RECURSIVE nested_categories AS (
+    SELECT
+        idcategory,
+        nom,
+        id_parent,
+        2 AS level
+    FROM
+        category
+    WHERE
+        id_parent IS NOT NULL
+    
+    UNION ALL
+    
+    SELECT
+        c.idcategory,
+        c.nom,
+        c.id_parent,
+        nc.level + 1 AS level
+    FROM
+        category c
+    INNER JOIN
+        nested_categories nc ON c.id_parent = nc.idcategory
+)
+SELECT
+    idcategory,
+    nom,
+    level
+FROM
+    nested_categories
+ORDER BY
+    level, idcategory;
+
+
+SELECT DISTINCT c1.nom
+FROM category c1
+INNER JOIN category c2 ON c1.idcategory = c2.id_parent
+ORDER BY c1.nom;
+
+
+select *
+from `category`
+where exists (
+    select * from `SubCategory` where `category`.`idcategory` = `SubCategory`.`parentID`
+);
+
+select c.nom, 
+from category c
+    join SubCategory s on s.parentID = c.idcategory 
+where s.parentID exists (
+    select *
+    from category c2
+        join SubCategory s on c2.idcategory = s.parentID
+    where c2.idcategory = c.idcategory
+)
+
+ALTER TABLE produit
+ADD PourcentageRemise integer;
+
