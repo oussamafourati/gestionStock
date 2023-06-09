@@ -108,6 +108,14 @@ FOREIGN KEY (produitID) REFERENCES produit(idproduit),
 arrivageID integer not null,
 FOREIGN KEY (arrivageID) REFERENCES arrivage(idArrivage),
 quantite integer,
+prixAchatHt integer,
+prixAchatTtc integer,
+prixVente integer,
+remise integer,
+PourcentageBenifice integer,
+Benifice integer,
+PrixRemise integer,
+PourcentageRemise integer,
 piecejointes LONGTEXT
 );
 /**************************************/
@@ -390,4 +398,3 @@ where s.parentID exists (
 
 ALTER TABLE produit
 ADD PourcentageRemise integer;
-

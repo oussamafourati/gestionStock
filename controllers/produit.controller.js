@@ -4,19 +4,19 @@ const db = require("../config/db.config");
 // @desc    Create a new Product
 exports.createProduct = async (req, res) => {
   const sql =
-    "INSERT INTO produit(`nomProduit`, `imageProduit`, `marque`, `prixAchatHt`, `prixAchatTtc`, `prixVente`, `remise`, `Benifice`, `PourcentageBenifice`, `PrixRemise`, `PourcentageRemise`, `remarqueProduit`, `categoryID`, `fournisseurID`) VALUES (?)";
+    "INSERT INTO produit(`nomProduit`, `imageProduit`, `marque`, `remarqueProduit`, `categoryID`, `fournisseurID`) VALUES (?)";
 
   nomProduit = req.body.nomProduit;
   imageProduit = req.body.imageProduit;
   marque = req.body.marque;
-  prixAchatHt = req.body.prixAchatHt;
-  prixAchatTtc = req.body.prixAchatTtc;
-  prixVente = req.body.prixVente;
-  remise = req.body.remise;
-  Benifice = req.body.Benifice;
-  PourcentageBenifice = req.body.PourcentageBenifice;
-  PrixRemise = req.body.PrixRemise;
-  PourcentageRemise = req.body.PourcentageRemise;
+  // prixAchatHt = req.body.prixAchatHt;
+  // prixAchatTtc = req.body.prixAchatTtc;
+  // prixVente = req.body.prixVente;
+  // remise = req.body.remise;
+  // Benifice = req.body.Benifice;
+  // PourcentageBenifice = req.body.PourcentageBenifice;
+  // PrixRemise = req.body.PrixRemise;
+  // PourcentageRemise = req.body.PourcentageRemise;
   remarqueProduit = req.body.remarqueProduit;
   categoryID = req.body.categoryID;
   fournisseurID = req.body.fournisseurID;
@@ -25,14 +25,14 @@ exports.createProduct = async (req, res) => {
     nomProduit,
     imageProduit,
     marque,
-    prixAchatHt,
-    (prixAchatTtc = prixAchatHt * 1.19),
-    prixVente,
-    remise,
-    (Benifice = prixVente - prixAchatTtc),
-    (PourcentageBenifice = (Benifice * 100) / prixVente),
-    PrixRemise,
-    (PourcentageRemise = (prixVente - remise) / (remise * 100)),
+    // prixAchatHt,
+    // (prixAchatTtc = prixAchatHt * 1.19),
+    // prixVente,
+    // remise,
+    // (Benifice = prixVente - prixAchatTtc),
+    // (PourcentageBenifice = (Benifice * 100) / prixVente),
+    // PrixRemise,
+    // (PourcentageRemise = (prixVente - remise) / (remise * 100)),
     remarqueProduit,
     categoryID,
     fournisseurID,

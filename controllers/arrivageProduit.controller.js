@@ -2,15 +2,40 @@ const db = require("../config/db.config");
 
 exports.createArrivageProduit = async (req, res) => {
   const sql =
-    "INSERT INTO arrivageProduit(`produitID`, `arrivageID`, `quantite`, `piecejointes`) VALUES (?);";
+    "INSERT INTO arrivageProduit(`produitID`, `arrivageID`, `quantite`, `prixAchatHt`, `prixAchatTtc`, `prixVente`, `remise`, `Benifice`, `PourcentageBenifice`, `PrixRemise`, `PourcentageRemise`, `MontantTotalProduit`, `MontantTotal`, `piecejointes`) VALUES (?);";
 
   produitID = req.body.produitID;
   arrivageID = req.body.arrivageID;
   quantite = req.body.quantite;
-  //piecejointes = req.file.buffer.toString("base64");
+  prixAchatHt = req.body.prixAchatHt;
+  prixAchatTtc = req.body.prixAchatTtc;
+  prixVente = req.body.prixVente;
+  remise = req.body.remise;
+  Benifice = req.body.Benifice;
+  PourcentageBenifice = req.body.PourcentageBenifice;
+  PrixRemise = req.body.PrixRemise;
+  PourcentageRemise = req.body.PourcentageRemise;
   piecejointes = req.body.piecejointes;
+  PourcentageRemise = req.body.PourcentageRemise;
+  MontantTotalProduit = req.body.MontantTotalProduit;
+  MontantTotal = req.body.MontantTotal;
 
-  const values = [produitID, arrivageID, quantite, piecejointes];
+  const values = [
+    produitID,
+    arrivageID,
+    quantite,
+    prixAchatHt,
+    (prixAchatTtc = prixAchatHt * 1.19),
+    prixVente,
+    remise,
+    (Benifice = prixVente - prixAchatTtc),
+    (PourcentageBenifice = (Benifice * 100) / prixVente),
+    PrixRemise,
+    (PourcentageRemise = ((prixVente - remise) * 100) / prixVente),
+    (MontantTotalProduit = prixAchatTtc * quantite),
+    MontantTotal,
+    piecejointes,
+  ];
 
   db.query(sql, [values], (err, data) => {
     if (err) {
@@ -20,10 +45,7 @@ exports.createArrivageProduit = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: true,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
@@ -38,10 +60,7 @@ exports.getAllArrivageProduit = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: true,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
@@ -57,10 +76,7 @@ exports.getOneArrivageProduit = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: true,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
@@ -72,7 +88,6 @@ exports.updateArrivageProduit = async (req, res) => {
   produitID = req.body.produitID;
   arrivageID = req.body.arrivageID;
   quantite = req.body.quantite;
-  //piecejointes = req.file.buffer.toString("base64");
   piecejointes = req.body.piecejointes;
 
   const values = [produitID, arrivageID, quantite, piecejointes];
@@ -85,10 +100,7 @@ exports.updateArrivageProduit = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: true,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
 
@@ -104,9 +116,6 @@ exports.removeArrivageProduit = async (req, res) => {
         message: "Database connection errror",
       });
     }
-    return res.status(200).json({
-      success: true,
-      data: results,
-    });
+    return res.status(200).json(data);
   });
 };
