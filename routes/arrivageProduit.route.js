@@ -8,6 +8,7 @@ const {
   getOneArrivageProduit,
   updateArrivageProduit,
   removeArrivageProduit,
+  getSingleArrivageProduit,
 } = require("../controllers/arrivageProduit.controller");
 
 const upload = multer({
@@ -15,9 +16,9 @@ const upload = multer({
 });
 
 router.post("/newArrivageProduit", createArrivageProduit);
-// router.post("/newArrivageProduit", upload.single("piecejointes"), createArrivageProduit);
 router.get("/allArrivageProduit", getAllArrivageProduit);
 router.get("/OneArrivageProduit/:id", getOneArrivageProduit);
+router.get("/SingleArrivageProduit/:id", getSingleArrivageProduit);
 router.put("/updateArrivageProduit/:id", updateArrivageProduit);
 // router.put("/updateArrivageProduit/:id", upload.single("piecejointes"), updateArrivageProduit);
 router.delete("/removeArrivageProduit/:id", removeArrivageProduit);

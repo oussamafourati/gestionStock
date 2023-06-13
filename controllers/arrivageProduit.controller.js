@@ -3,6 +3,7 @@ const db = require("../config/db.config");
 exports.createArrivageProduit = async (req, res) => {
   const sql =
     "INSERT INTO arrivageProduit(`produitID`, `arrivageID`, `quantite`, `prixAchatHt`, `prixAchatTtc`, `prixVente`, `remise`, `Benifice`, `PourcentageBenifice`, `PrixRemise`, `PourcentageRemise`, `MontantTotalProduit`, `MontantTotal`, `piecejointes`) VALUES (?);";
+  // "INSERT INTO arrivageProduit(`produitID`, `arrivageID`, `quantite`, `prixAchatHt`, `prixAchatTtc`, `prixVente`, `remise`, `Benifice`, `PourcentageBenifice`, `PrixRemise`, `PourcentageRemise`, `MontantTotalProduit`, `MontantTotal`, `piecejointes`) SELECT `produitID`, `arrivageID`, `quantite`, `prixAchatHt`, `prixAchatTtc`, `prixVente`, `remise`, `Benifice`, `PourcentageBenifice`, `PrixRemise`, `PourcentageRemise`, `MontantTotalProduit`, SUM(`MontantTotalProduit`), `piecejointes`, from arrivageProduit VALUES (?);";
 
   produitID = req.body.produitID;
   arrivageID = req.body.arrivageID;
@@ -19,7 +20,6 @@ exports.createArrivageProduit = async (req, res) => {
   PourcentageRemise = req.body.PourcentageRemise;
   MontantTotalProduit = req.body.MontantTotalProduit;
   MontantTotal = req.body.MontantTotal;
-
   const values = [
     produitID,
     arrivageID,
@@ -69,6 +69,22 @@ exports.getOneArrivageProduit = async (req, res) => {
   const sql =
     "SELECT AP.*, A.*, P.nomProduit From arrivageProduit as AP INNER JOIN arrivage as A ON AP.arrivageID = A.idArrivage INNER JOIN produit as P ON AP.produitID = P.idproduit WHERE idArrivageProduit  = ? ";
   db.query(sql, [id_arrivageproduit], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json(data);
+  });
+};
+
+exports.getSingleArrivageProduit = async (req, res) => {
+  const id_produit = req.params.id;
+  const sql =
+    "SELECT AP.*, A.*, P.nomProduit From arrivageProduit as AP INNER JOIN arrivage as A ON AP.arrivageID = A.idArrivage INNER JOIN produit as P ON AP.produitID = P.idproduit WHERE produitID  = ? ";
+  db.query(sql, [id_produit], (err, data) => {
     if (err) {
       console.log(err);
       return res.status(500).json({
