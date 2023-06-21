@@ -132,12 +132,14 @@ designationFacture VARCHAR(255) not null,
 dateFacturation VARCHAR(255),
 montantHt integer,
 montantTtc integer,
+quantiteProduit integer,
 datePaiement VARCHAR(255),
 modePaiement VARCHAR(255),
 statusFacture integer,
-articles VARCHAR(255),
 clientID integer,
-FOREIGN KEY (clientID) REFERENCES client_physique(idclient_p)
+FOREIGN KEY (clientID) REFERENCES client_physique(idclient_p),
+produitID integer,
+FOREIGN KEY (produitID) REFERENCES produit(idproduit)
 );
 /**************************************/
 

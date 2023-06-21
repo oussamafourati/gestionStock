@@ -32,7 +32,7 @@ exports.createProduct = async (req, res) => {
     (PourcentageBenifice = (Benifice * 100) / prixVente),
     PrixRemise,
     (PourcentageRemise = ((prixVente - PrixRemise) * 100) / prixVente),
-    (MontantTotalProduit = prixAchatTtc * quantite),
+    (MontantTotalProduit = prixAchatTtc),
     remarqueProduit,
     categoryID,
     fournisseurID,

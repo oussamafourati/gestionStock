@@ -2,7 +2,7 @@ const db = require("../config/db.config");
 
 exports.getAllFactures = async (req, res) => {
   const sql =
-    "SELECT F.*, C.* From facture as F INNER JOIN client_physique as C ON F.clientID = C.idclient_p";
+    "SELECT F.*, C.*, P.* From facture as F INNER JOIN client_physique as C ON F.clientID = C.idclient_p INNER JOIN produit as P ON F.produitID = P.idproduit";
   db.query(sql, (err, data) => {
     if (err) {
       console.log(err);
@@ -27,15 +27,16 @@ exports.getOneFacture = async (req, res) => {
 
 exports.createNewFacture = async (req, res) => {
   const sql =
-    "INSERT INTO facture(`designationFacture`, `dateFacturation`, `montantHt`, `montantTtc`, `datePaiement`, `modePaiement`, `statusFacture`, `articles`, `clientID`) VALUES (?)";
+    "INSERT INTO facture(`designationFacture`, `dateFacturation`, `montantHt`, `montantTtc`,`quantiteProduit`, `datePaiement`, `modePaiement`, `statusFacture`, `produitID`, `clientID`) VALUES (?)";
   designationFacture = req.body.designationFacture;
   dateFacturation = req.body.dateFacturation;
   montantHt = req.body.montantHt;
   montantTtc = req.body.montantTtc;
+  quantiteProduit = req.body.quantiteProduit;
   datePaiement = req.body.datePaiement;
   modePaiement = req.body.modePaiement;
   statusFacture = req.body.statusFacture;
-  articles = req.body.articles;
+  produitID = req.body.produitID;
   clientID = req.body.clientID;
 
   const values = [
@@ -43,10 +44,11 @@ exports.createNewFacture = async (req, res) => {
     dateFacturation,
     montantHt,
     montantTtc,
+    quantiteProduit,
     datePaiement,
     modePaiement,
     statusFacture,
-    articles,
+    produitID,
     clientID,
   ];
 
