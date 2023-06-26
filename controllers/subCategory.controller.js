@@ -3,9 +3,6 @@ const db = require("../config/db.config");
 exports.getAllSubCategory = async (req, res) => {
   const sql =
     "SELECT S.*, C.* From SubCategory as S Left JOIN category as C ON S.parentID = C.idcategory";
-  // "SELECT * FROM category c LEFT JOIN (SELECT s.* FROM SubCategory p WHERE c.idcategory = p.parentID)p";
-  // "select * from SubCategory as S, category as C where S.parentID = C.idcategory";
-  // "select * from SubCategory";
 
   db.query(sql, (err, data) => {
     if (err) {
@@ -20,7 +17,6 @@ exports.getOneSubCategory = async (req, res) => {
   // const idSubCategory = req.params.id;
   const idCategory = req.query.idcategory;
   const sql = `SELECT * From SubCategory  WHERE parentID = ${idCategory} `;
-  // `SELECT S.*, C.* From SubCategory as S INNER JOIN category as C ON S.parentID = C.idcategory WHERE parentID = ${idCategory} `;
   db.query(sql, [idCategory], (err, data) => {
     if (err) {
       console.log(err);

@@ -4,38 +4,22 @@ const db = require("../config/db.config");
 // @desc    Create a new Product
 exports.createProduct = async (req, res) => {
   const sql =
-    "INSERT INTO produit(`nomProduit`, `imageProduit`, `marque`, `prixAchatHt`, `prixAchatTtc`, `prixVente`, `Benifice`, `PourcentageBenifice`, `PrixRemise`, `PourcentageRemise`, `MontantTotalProduit`, `remarqueProduit`, `categoryID`, `fournisseurID`) VALUES (?);";
+    "INSERT INTO produit(`nomProduit`, `imageProduit`, `marque`, `remarqueProduit`, `categoryID`, `sousCategoryID`) VALUES (?);";
 
   nomProduit = req.body.nomProduit;
   imageProduit = req.body.imageProduit;
   marque = req.body.marque;
-  prixAchatHt = req.body.prixAchatHt;
-  prixAchatTtc = req.body.prixAchatTtc;
-  prixVente = req.body.prixVente;
-  Benifice = req.body.Benifice;
-  PourcentageBenifice = req.body.PourcentageBenifice;
-  PrixRemise = req.body.PrixRemise;
-  PourcentageRemise = req.body.PourcentageRemise;
-  MontantTotalProduit = req.body.MontantTotalProduit;
   remarqueProduit = req.body.remarqueProduit;
   categoryID = req.body.categoryID;
-  fournisseurID = req.body.fournisseurID;
+  sousCategoryID = req.body.sousCategoryID;
 
   const values = [
     nomProduit,
     imageProduit,
     marque,
-    prixAchatHt,
-    (prixAchatTtc = prixAchatHt * 1.19),
-    prixVente,
-    (Benifice = prixVente - prixAchatTtc),
-    (PourcentageBenifice = (Benifice * 100) / prixVente),
-    PrixRemise,
-    (PourcentageRemise = ((prixVente - PrixRemise) * 100) / prixVente),
-    (MontantTotalProduit = prixAchatTtc),
     remarqueProduit,
     categoryID,
-    fournisseurID,
+    sousCategoryID,
   ];
 
   db.query(sql, [values], (err, data) => {
@@ -47,7 +31,8 @@ exports.createProduct = async (req, res) => {
 // @route   GET /product/getAll
 // @desc    Get all products
 exports.getAllProducts = async (req, res) => {
-  const sql = "SELECT * from produit";
+  const sql =
+    "SELECT P.*, C.*, S.* From produit as P INNER JOIN category as C ON P.categoryID = C.idcategory INNER JOIN subcategory as S ON P.sousCategoryID = S.idSubCategory";
   db.query(sql, (err, data) => {
     if (err) {
       console.log(err);

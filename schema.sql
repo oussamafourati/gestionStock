@@ -71,20 +71,11 @@ idproduit integer PRIMARY KEY AUTO_INCREMENT,
 nomProduit VARCHAR(255) NOT NULL,
 imageProduit LONGTEXT not null,
 marque VARCHAR(255) NOT NULL,
-quantite integer,
-prixAchatHt integer,
-prixAchatTtc integer,
-prixVente integer,
-Benifice integer,
-PourcentageBenifice integer,
-PrixRemise integer,
-PourcentageRemise integer,
-MontantTotalProduit integer,
 remarqueProduit VARCHAR(255),
 categoryID int,
 FOREIGN KEY (categoryID) REFERENCES category(idcategory),
-fournisseurID int,
-FOREIGN KEY (fournisseurID) REFERENCES fournisseur(idfournisseur)
+sousCategoryID int,
+FOREIGN KEY (sousCategoryID) REFERENCES subcategory(idSubCategory)
 );
 /**************************************/
 
@@ -94,9 +85,9 @@ CREATE TABLE arrivage (
 idArrivage integer PRIMARY KEY AUTO_INCREMENT,
 designation VARCHAR(255),
 montantTotal integer,
+dateArrivage VARCHAR(255),
 fournisseurID int,
-FOREIGN KEY (fournisseurID) REFERENCES fournisseur(idfournisseur),
-dateArrivage VARCHAR(255)
+FOREIGN KEY (fournisseurID) REFERENCES fournisseur(idfournisseur)
 );
 /**************************************/
 
@@ -108,6 +99,15 @@ produitID integer not null,
 FOREIGN KEY (produitID) REFERENCES produit(idproduit),
 arrivageID integer not null,
 FOREIGN KEY (arrivageID) REFERENCES arrivage(idArrivage),
+quantite integer,
+prixAchatHt integer,
+prixAchatTtc integer,
+prixVente integer,
+Benifice integer,
+PourcentageBenifice integer,
+PrixRemise integer,
+PourcentageRemise integer,
+MontantTotalProduit integer,
 piecejointes LONGTEXT
 );
 /**************************************/
@@ -205,190 +205,3 @@ password VARCHAR(255) not null,
 role integer
 );
 /**************************************/
-/**********************************/
-SELECT PF.*, P.*, F.*
-From produitFacture as PF
-INNER JOIN produit as P
-ON PF.produitID = P.idproduit
-INNER JOIN facture as F
-ON PF.factureID = F.idFacture
-
-
-UPDATE category
-SET nom = "oussama" , image = "fpikdfka" , id_parent = 7
-WHERE idcategory = 3;
-
-ALTER TABLE fournisseur
-ADD idpk integer;
-
-ALTER TABLE fournisseur
-DROP COLUMN rib;
-
-CREATE TABLE piece_jointes (
-idpj integer PRIMARY KEY AUTO_INCREMENT,
-fichier VARCHAR(255) NOT NULL
-);
-
-INSERT INTO fournisseur ("foazrazr", "tunis", "14785236", "test@gmail.com", 1, "hello147852", "logo", 14785, 1)
-SELECT fichier
-FROM idfournisseur
-WHERE idcategory = piecejointes;
-
-ALTER TABLE fournisseur
-ADD FOREIGN KEY (piece_jointes) REFERENCES piece_jointes(idpj);
-
-DROP TABLE charges;
-
-INSERT INTO piece_jointes (fichier)
-VALUES
-("fichier1");
-
-SELECT fournisseur.*, piece_jointes.*
-    FROM fournisseur
-    JOIN piece_jointes ON fournisseur.piecejointes = piece_jointes.idpj;
-
-
-select c.* from category as c 
-union all
-    select c.*, s.* from SubCategory as s
-    join category as c
-    on s.parentID = c.idcategory
-
-select c.nom, s.title
-from category c
-    join SubCategory s on s.parentID = c.idcategory 
-
-
-SELECT SUM(montantCharges) AS prix_total
-FROM charges
-
-SELECT t1.nom FROM
-category AS t1 LEFT JOIN category as t2
-ON t1.idcategory = t2.id_parent
-WHERE t2.idcategory IS NULL;
-
-SELECT ANY_VALUE(CONCAT( REPEAT(' ', COUNT(parent.name) - 1), node.name)) AS name
-FROM nested_category AS node,
-        nested_category AS parent
-WHERE node.lft BETWEEN parent.lft AND parent.rgt
-ORDER BY node.name
-GROUP BY node.lft;
-
-CREATE TABLE category (
-  idcategory int(10) unsigned NOT NULL AUTO_INCREMENT,
-  nom varchar(255) NOT NULL,
-  image varchar(255) NOT NULL,
-  id_parent int(10) unsigned DEFAULT NULL,
-  final_level integer not null,
-  PRIMARY KEY (idcategory),
-  FOREIGN KEY (id_parent) REFERENCES category (idcategory) 
-    ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-INSERT INTO category(nom,id_parent) 
-VALUES('Laptops & PC',1);
-
-INSERT INTO category(nom,id_parent) 
-VALUES('Laptops',2);
-INSERT INTO category(nom,id_parent) 
-VALUES('PC',2);
-
-INSERT INTO category(nom,id_parent) 
-VALUES('Cameras & photo',2);
-INSERT INTO category(nom,id_parent) 
-VALUES('Camera',5);
-
-INSERT INTO category(nom,id_parent) 
-VALUES('Phones & Accessories',2);
-INSERT INTO category(nom,id_parent) 
-VALUES('Smartphones',7);
-
-INSERT INTO category(nom,id_parent) 
-VALUES('Android',8);
-INSERT INTO category(nom,id_parent) 
-VALUES('iOS',9);
-INSERT INTO category(nom,id_parent) 
-VALUES('Other Smartphones',8);
-
-INSERT INTO category(nom,id_parent) 
-VALUES('Batteries',7);
-INSERT INTO category(nom,id_parent) 
-VALUES('Headsets',7);
-INSERT INTO category(nom,id_parent) 
-VALUES('Screen Protectors',7);
-
-WITH RECURSIVE category_path (idcategory, nom, id_parent) AS
-(
-  SELECT idcategory, nom, id_parent
-    FROM category
-    WHERE idcategory = 9 -- child node
-  UNION ALL
-  SELECT c.idcategory, c.nom, c.id_parent
-    FROM category_path AS cp JOIN category AS c
-      ON cp.id_parent = c.idcategory
-)
-SELECT * FROM category_path;
-
-CREATE TABLE categories (
-    category_id INT PRIMARY KEY,
-    category_name VARCHAR(255),
-    parent_category_id INT
-);
-
-WITH RECURSIVE nested_categories AS (
-    SELECT
-        idcategory,
-        nom,
-        id_parent,
-        2 AS level
-    FROM
-        category
-    WHERE
-        id_parent IS NOT NULL
-    
-    UNION ALL
-    
-    SELECT
-        c.idcategory,
-        c.nom,
-        c.id_parent,
-        nc.level + 1 AS level
-    FROM
-        category c
-    INNER JOIN
-        nested_categories nc ON c.id_parent = nc.idcategory
-)
-SELECT
-    idcategory,
-    nom,
-    level
-FROM
-    nested_categories
-ORDER BY
-    level, idcategory;
-
-
-SELECT DISTINCT c1.nom
-FROM category c1
-INNER JOIN category c2 ON c1.idcategory = c2.id_parent
-ORDER BY c1.nom;
-
-
-select *
-from `category`
-where exists (
-    select * from `SubCategory` where `category`.`idcategory` = `SubCategory`.`parentID`
-);
-
-select c.nom, 
-from category c
-    join SubCategory s on s.parentID = c.idcategory 
-where s.parentID exists (
-    select *
-    from category c2
-        join SubCategory s on c2.idcategory = s.parentID
-    where c2.idcategory = c.idcategory
-)
-
-ALTER TABLE produit
-ADD PourcentageRemise integer;

@@ -2,14 +2,21 @@ const db = require("../config/db.config");
 
 exports.createArrivage = async (req, res) => {
   const sql =
-    "INSERT INTO arrivage(`designation`, `montantTotal`, `fournisseurID`, `dateArrivage`) VALUES (?);";
+    "INSERT INTO arrivage(`idArrivage`, `designation`, `montantTotal`, `fournisseurID`, `dateArrivage`) VALUES (?);";
 
+  idArrivage = req.body.idArrivage;
   designation = req.body.designation;
   montantTotal = req.body.montantTotal;
   fournisseurID = req.body.fournisseurID;
   dateArrivage = req.body.dateArrivage;
 
-  const values = [designation, montantTotal, fournisseurID, dateArrivage];
+  const values = [
+    idArrivage,
+    designation,
+    montantTotal,
+    fournisseurID,
+    dateArrivage,
+  ];
 
   db.query(sql, [values], (err, data) => {
     if (err) {
@@ -25,7 +32,7 @@ exports.createArrivage = async (req, res) => {
 
 exports.getAllArrivage = async (req, res) => {
   const sql =
-    "SELECT A.*, F.raison_sociale From arrivage as A INNER JOIN fournisseur as F ON A.fournisseurID = F.idfournisseur";
+    "SELECT A.*, F.raison_sociale From arrivage as A Left JOIN fournisseur as F ON A.fournisseurID = F.idfournisseur";
   db.query(sql, (err, data) => {
     if (err) {
       console.log(err);
