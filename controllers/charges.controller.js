@@ -29,6 +29,36 @@ exports.getOneCharge = async (req, res) => {
   });
 };
 
+exports.getChargeMois = async (req, res) => {
+  const sql =
+    "select SUM(montantCharges) as SUM from charges where MONTH(dateCharges) = MONTH(now());";
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json(data);
+  });
+};
+
+exports.getChargeWeek = async (req, res) => {
+  const sql =
+    "select SUM(montantCharges) as Week_SUM from charges where week(dateCharges) = week(now());";
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json(data);
+  });
+};
+
 exports.createNewCharges = async (req, res) => {
   const sql =
     "INSERT INTO charges(`typeCharges`, `montantCharges`, `dateCharges`, `descriptionCharge`, `piecejointes`) VALUES (?)";

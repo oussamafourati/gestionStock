@@ -205,3 +205,19 @@ password VARCHAR(255) not null,
 role integer
 );
 /**************************************/
+
+select SUM(montantCharges) from charges where MONTH(dateCharges) = MONTH(now());
+
+select * from charges
+       where MONTH(dateCharges) = MONTH(now())
+       and YEAR(dateCharges) = YEAR(now());
+
+SELECT
+EXTRACT(YEAR FROM dateCharges) AS year,
+EXTRACT(MONTH FROM dateCharges) AS month
+FROM charges;
+
+select idCharges from charges where week(dateCharges) = week(now());
+
+-- SELECT TOP 1 * FROM arrivageProduit ORDER BY idArrivageProduit DESC
+SELECT * FROM arrivageProduit where produitID = 34 ORDER BY idArrivageProduit DESC LIMIT 1;

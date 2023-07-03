@@ -91,6 +91,23 @@ exports.getSingleArrivageProduit = async (req, res) => {
   });
 };
 
+exports.getOneArrProduit = async (req, res) => {
+  const id_arrproduit = req.params.id;
+  const sql =
+    // "SELECT AP.*, A.*, P.nomProduit From arrivageProduit as AP INNER JOIN arrivage as A ON AP.arrivageID = A.idArrivage INNER JOIN produit as P ON AP.produitID = P.idproduit WHERE idArrivageProduit  = ? ";
+    "SELECT AP.*, A.*, P.* FROM arrivageProduit as AP INNER JOIN arrivage as A ON AP.arrivageID = A.idArrivage INNER JOIN produit as P ON AP.produitID = P.idproduit where produitID = ? ORDER BY idArrivageProduit DESC LIMIT 1";
+  db.query(sql, [id_arrproduit], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json(data);
+  });
+};
+
 exports.updateArrivageProduit = async (req, res) => {
   const id_arrivageproduit = req.params.id;
   const sql =
