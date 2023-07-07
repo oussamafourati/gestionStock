@@ -8,6 +8,7 @@ const {
   getOneProduct,
   updateProduct,
   removeProduct,
+  getNomProduct,
 } = require("../controllers/produit.controller");
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -16,6 +17,7 @@ const upload = multer({
 router.post("/newProduct", upload.single("imageProduit"), createProduct);
 router.get("/getAllProducts", getAllProducts);
 router.get("/getOneProduct/:id", getOneProduct);
+router.get("/getnomProduct/:nomProduit", getNomProduct);
 router.patch("/updateproduct/:id", updateProduct);
 router.delete("/deleteproduct/:id", removeProduct);
 

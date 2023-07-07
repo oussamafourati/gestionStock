@@ -30,8 +30,22 @@ exports.getOneCharge = async (req, res) => {
 };
 
 exports.getChargeMois = async (req, res) => {
+  const sql = "select * from charges where MONTH(dateCharges) = MONTH(now());";
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection errror",
+      });
+    }
+    return res.status(200).json(data);
+  });
+};
+
+exports.getChargeMoisDernier = async (req, res) => {
   const sql =
-    "select SUM(montantCharges) as SUM from charges where MONTH(dateCharges) = MONTH(now());";
+    "select * from charges where MONTH(dateCharges) = MONTH(now())-1;";
   db.query(sql, (err, data) => {
     if (err) {
       console.log(err);
@@ -45,8 +59,7 @@ exports.getChargeMois = async (req, res) => {
 };
 
 exports.getChargeWeek = async (req, res) => {
-  const sql =
-    "select SUM(montantCharges) as Week_SUM from charges where week(dateCharges) = week(now());";
+  const sql = "select * from charges where week(dateCharges) = week(now());";
   db.query(sql, (err, data) => {
     if (err) {
       console.log(err);

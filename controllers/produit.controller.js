@@ -59,6 +59,18 @@ exports.getOneProduct = async (req, res) => {
   });
 };
 
+exports.getNomProduct = async (req, res) => {
+  const nom_product = req.params.nomProduit;
+  const sql = "SELECT * FROM produit WHERE nomProduit = ?;";
+  db.query(sql, [nom_product], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.status(200).json(data);
+  });
+};
+
 // @route   PUT /product/updateproduct
 // @desc    Update a specific product
 // @params ?id passed in query
